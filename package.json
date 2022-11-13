@@ -1,0 +1,39 @@
+{
+  "name": "lavacodwebsite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ErrorDoc404/LavaWebsite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ErrorDoc404/LavaWebsite/issues"
+  },
+  "homepage": "https://github.com/ErrorDoc404/LavaWebsite#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "connect-mongo": "^4.6.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "cpu-stat": "^2.0.1",
+    "discord.js": "^14.6.0",
+    "erela.js": "^2.4.0",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "fs": "^0.0.1-security",
+    "http": "^0.0.1-security",
+    "is-empty": "^1.2.0",
+    "mongoose": "^6.7.2",
+    "passport": "^0.6.0",
+    "passport-discord": "^0.1.4",
+    "path": "^0.12.7",
+    "socket.io": "^4.5.3"
+  }
+}
