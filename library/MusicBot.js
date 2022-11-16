@@ -68,7 +68,7 @@ class MusicBot extends Client {
             plugins: [
                 new deezer(),
                 new AppleMusic(),
-                // new Spotify(),
+                new Spotify(),
                 // new facebook(),
             ],
             autoPlay: true,
