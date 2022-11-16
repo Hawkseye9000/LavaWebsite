@@ -41,10 +41,14 @@ class MusicBot extends Client {
         this.SlashCommands = new Collection();
         this.Commands = new Collection();
         this.MusicPlayed = 0;
+        this.CommandsRan = 0;
+        this.InQueue = 0;
+        this.guildQueue = [];
         this.Buttons = new Collection();
 
         this.LoadEvents();
         this.LoadButtons();
+        this.LoadCommands();
 
         this.Commands.set('play', play);
 
@@ -82,7 +86,6 @@ class MusicBot extends Client {
             .on("nodeError", (node, error) => logger.error(`Node ${node.options.identifier} had an error: ${error.message}`))
             .on("trackStart", (player, track) => {
                 this.MusicPlayed++;
-                console.log(this.MusicPlayed);
                 let content;
                 const musicMsg = client.musicMessage[player.guild];
                 if (player.queue.length == 0)
@@ -92,6 +95,7 @@ class MusicBot extends Client {
                     musicMsg.edit({ content: content });
                 };
                 this.playSong(track.title, player.queue.length);
+                this.guildQueue[player.guild] = player.queue.length;
                 const musicEmbed = musicMsg.embeds[0];
                 const thumbnail = track.thumbnail ? track.thumbnail.replace('default', 'hqdefault') : 'https://c.tenor.com/eDVrPUBkx7AAAAAd/anime-sleepy.gif';
                 const msgEmbed = {
@@ -121,6 +125,7 @@ class MusicBot extends Client {
                 const musicMsg = client.musicMessage[player.guild];
                 client.skipSong[player.guild] = false;
                 client.skipBy[player.guild] = false;
+                client.guildQueue[player.guild] = 0;
                 let description = null;
                 const embed = {
                     title: `🎵 Vibing Music 🎵`,
@@ -229,6 +234,24 @@ class MusicBot extends Client {
                 this.Buttons.set(btnName, button);
                 logger.log(`Loaded button '${btnName}'`);
             });
+        });
+    }
+
+    LoadCommands() {
+        const categories = fs.readdirSync(__dirname + '/../commands/');
+        categories.filter((cat) => !cat.endsWith('.js')).forEach((cat) => {
+            const files = fs.readdirSync(__dirname + `/../commands/${cat}/`).filter((f) =>
+                f.endsWith('.js')
+            );
+            files.forEach((file) => {
+                let cmd = require(__dirname + `/../commands/${cat}/` + file);
+                if (!cmd.name || !cmd.description || !cmd.SlashCommand) {
+                    return this.warn(`unable to load command: ${file.split(".")[0]}, Reason: File doesn't had run/name/desciption`);
+                }
+                let cmdName = cmd.name.toLowerCase();
+                this.Commands.set(cmdName, cmd);
+                logger.commands(`Loaded command '${cmdName}'`);
+            })
         });
     }
 
