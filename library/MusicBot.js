@@ -67,9 +67,9 @@ class MusicBot extends Client {
             // plugins
             plugins: [
                 new deezer(),
-                new AppleMusic(),
-                new Spotify(),
-                new facebook(),
+                // new AppleMusic(),
+                // new Spotify(),
+                // new facebook(),
             ],
             autoPlay: true,
             retryDelay: this.config.retryDelay,
