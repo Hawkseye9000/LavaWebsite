@@ -2,9 +2,9 @@ const GuildConfig = require("../mongoose/database/schemas/GuildConfig");
 
 module.exports = async (client, guild) => {
 
-  try{
-    const findGuildConfig = await GuildConfig.findOne({guildId: guild.id });
-    if(findGuildConfig){
+  try {
+    const findGuildConfig = await GuildConfig.findOne({ guildId: guild.id });
+    if (findGuildConfig) {
       console.log('Guild found');
     } else {
       const newGuildConfig = await GuildConfig.create({
@@ -12,7 +12,7 @@ module.exports = async (client, guild) => {
         prefix: '!',
       });
     }
-  }catch (err){
+  } catch (err) {
     console.log(err);
   }
 };

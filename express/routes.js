@@ -36,9 +36,9 @@ api.get("/", (req, res) => {
   res.sendFile(join(__dirname, "..", "webview", "index.html"));
 });
 
-// api.get("/dashboard", Auth, (req, res) => {
-//   res.sendFile(join(__dirname, "..", "webview", "dashboard.html"));
-// });
+api.get("/dashboard", Auth, (req, res) => {
+  res.sendFile(join(__dirname, "..", "webview", "dashboard.html"));
+});
 
 // api.get("/passbook", Auth, (req, res) => {
 //   res.sendFile(join(__dirname, "..", "webview", "passbook.html"));
@@ -79,7 +79,7 @@ api.get("/api/commands", (req, res) => {
 });
 
 api.get("/logout", (req, res) => {
-  if (req.user) req.logout();
+  if (req.user) req.logout(function (err) { if (err) return next(err); });
   res.redirect("/");
 });
 

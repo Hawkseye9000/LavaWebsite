@@ -21,6 +21,8 @@ class MusicBot extends Client {
         props = {
             intents: [
                 Intents.FLAGS.GUILDS,
+                Intents.FLAGS.GUILD_INVITES,
+                Intents.FLAGS.GUILD_MEMBERS,
                 Intents.FLAGS.GUILD_VOICE_STATES,
                 Intents.FLAGS.GUILD_MESSAGES,
                 Intents.FLAGS.MESSAGE_CONTENT,
@@ -45,6 +47,7 @@ class MusicBot extends Client {
         this.InQueue = 0;
         this.guildQueue = [];
         this.Buttons = new Collection();
+        this.invites = new Collection();
 
         this.LoadEvents();
         this.LoadButtons();

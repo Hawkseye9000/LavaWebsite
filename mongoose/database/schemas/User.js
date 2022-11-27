@@ -15,15 +15,20 @@ const UserSchema = new mongoose.Schema({
     type: mongoose.SchemaTypes.String,
     require: true,
   },
-  premium:{
+  premium: {
     type: mongoose.SchemaTypes.Boolean,
     require: true,
     default: false,
   },
-  premiumExpiration:{
+  premiumExpiration: {
     type: mongoose.SchemaTypes.String,
     require: false,
     default: '1990-01-01T00:00:00.000+00:00',
+  },
+  perms: {
+    type: mongoose.SchemaTypes.String,
+    require: false,
+    default: 'none',
   },
   avatar: {
     type: mongoose.SchemaTypes.String,
