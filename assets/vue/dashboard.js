@@ -4,6 +4,7 @@ var app = new Vue({
         return {
             user: [],
             bot: [],
+            session: [],
         }
     },
     created() {
@@ -14,5 +15,7 @@ var app = new Vue({
         fetch('/api/dashboard/bot')
             .then(response => response.json())
             .then(data => (this.bot = data))
+
+        fetch('/api/dashboard/session')
     }
 });
