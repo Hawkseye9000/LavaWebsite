@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const fetch = require('node-fetch');
 const GuildConfig = require("../../mongoose/database/schemas/GuildConfig");
 
@@ -48,50 +48,50 @@ module.exports = {
         },
       };
 
-      const row = new MessageActionRow().addComponents([
-        new MessageButton()
+      const row = new ActionRowBuilder().addComponents([
+        new ButtonBuilder()
           .setCustomId('pause')
           .setLabel('⏸️ Pause')
-          .setStyle('PRIMARY'),
-        new MessageButton()
+          .setStyle(ButtonStyle.Primary),
+        new ButtonBuilder()
           .setCustomId('skip')
           .setLabel('⏭️ Skip')
-          .setStyle('SECONDARY'),
-        new MessageButton()
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
           .setCustomId('loop')
           .setLabel('🔁 Loop')
-          .setStyle('DANGER'),
-        new MessageButton()
+          .setStyle(ButtonStyle.Danger),
+        new ButtonBuilder()
           .setCustomId('stop')
           .setLabel('⏹️ Stop')
-          .setStyle('SECONDARY'),
-        new MessageButton()
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
           .setCustomId('fix')
           .setLabel('⚒️ Repair')
-          .setStyle('SECONDARY'),
+          .setStyle(ButtonStyle.Secondary),
       ]);
 
-      const row1 = new MessageActionRow().addComponents([
-        new MessageButton()
+      const row1 = new ActionRowBuilder().addComponents([
+        new ButtonBuilder()
           .setCustomId('summon')
           .setLabel('⚡ Summon')
-          .setStyle('SECONDARY'),
-        new MessageButton()
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
           .setCustomId('queuelist')
           .setLabel('🧾 Queue List')
-          .setStyle('SECONDARY'),
-        new MessageButton()
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
           .setCustomId('clear')
           .setLabel('🗑️ Clear')
-          .setStyle('SECONDARY'),
-        new MessageButton()
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
           .setCustomId('grab')
           .setLabel('🎣 Grab')
-          .setStyle('SECONDARY'),
-        new MessageButton()
+          .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
           .setCustomId('stats')
           .setLabel('👾 Stats')
-          .setStyle('SECONDARY'),
+          .setStyle(ButtonStyle.Secondary),
       ]);
 
       music_channel.send({ content: `**[ Nothing Playing ]**\nJoin a voice channel and queue songs by name or url in here.`, embeds: [embed], components: [row, row1] })

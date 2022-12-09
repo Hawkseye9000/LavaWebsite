@@ -1,4 +1,4 @@
-const { Client, Collection, Intents, MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { Client, GatewayIntentBits, Partials, Collection, EmbedBuilder, MessageActionRow, MessageButton } = require('discord.js');
 const ConfigFetcher = require('../config');
 const { Server } = require("socket.io");
 const http = require("http");
@@ -14,18 +14,19 @@ const { default: AppleMusic } = require("better-erela.js-apple");
 const deezer = require("erela.js-deezer");
 const facebook = require("erela.js-facebook");
 const mongoose = require('mongoose');
+const { LavasfyClient } = require('lavasfy');
 
 class MusicBot extends Client {
 
     constructor(
         props = {
             intents: [
-                Intents.FLAGS.GUILDS,
-                Intents.FLAGS.GUILD_INVITES,
-                Intents.FLAGS.GUILD_MEMBERS,
-                Intents.FLAGS.GUILD_VOICE_STATES,
-                Intents.FLAGS.GUILD_MESSAGES,
-                Intents.FLAGS.MESSAGE_CONTENT,
+                GatewayIntentBits.Guilds,
+                GatewayIntentBits.GuildInvites,
+                GatewayIntentBits.GuildMembers,
+                GatewayIntentBits.GuildVoiceStates,
+                GatewayIntentBits.GuildMessages,
+                GatewayIntentBits.MessageContent,
             ],
         }
 
@@ -64,6 +65,25 @@ class MusicBot extends Client {
         this.io = new Server(this.http);
         require('../express/socket')(this.io);
 
+        this.Lavasfy = new LavasfyClient(
+            {
+                clientID: this.config.Spotify.ClientID,
+                clientSecret: this.config.Spotify.ClientSecret,
+                playlistLoadLimit: 100,
+                audioOnlyResults: true,
+                autoResolve: true,
+                useSpotifyMetadata: true
+            },
+            [
+                {
+                    id: this.config.lavalink.id,
+                    host: this.config.lavalink.host,
+                    port: this.config.lavalink.port,
+                    password: this.config.lavalink.pass,
+                },
+            ]
+        );
+
         // Initiate the Manager with some options and listen to some events.
         this.manager = new Manager({
             autoPlay: true,
@@ -71,8 +91,8 @@ class MusicBot extends Client {
             plugins: [
                 new deezer(),
                 new AppleMusic(),
-                new Spotify(),
-                // new facebook(),
+                // new Spotify(),
+                new facebook(),
             ],
             autoPlay: true,
             retryDelay: this.config.retryDelay,
@@ -115,8 +135,8 @@ class MusicBot extends Client {
                         iconURL: `${client.user.avatarURL()}`,
                     },
                 };
-                const playEmbed = new MessageEmbed(msgEmbed);
-                playEmbed.addField(`Requested By`, `${track.requester.username}`, true);
+                const playEmbed = new EmbedBuilder(msgEmbed);
+                playEmbed.addFields({ name: `Requested By`, value: `${track.requester.username}`, inline: true });
                 if (client.skipSong[player.guild] && client.skipBy[player.guild]) {
                     playEmbed.addField(`Skip By`, `${client.skipBy[player.guild].username}`, true);
                     client.skipSong[player.guild] = false;

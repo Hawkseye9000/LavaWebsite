@@ -31,4 +31,10 @@ module.exports = {
             },
         ],
     },
+
+    Spotify: {
+        ClientID: process.env.Spotify_ClientID || "", //Spotify Client ID
+        ClientSecret: process.env.Spotify_ClientSecret || "", //Spotify Client Secret
+    },
+
 };
