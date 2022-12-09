@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, Partials, Collection, EmbedBuilder, MessageActionRow, MessageButton } = require('discord.js');
+const { Client, GatewayIntentBits, Partials, Collection, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const ConfigFetcher = require('../config');
 const { Server } = require("socket.io");
 const http = require("http");
@@ -14,12 +14,17 @@ const { default: AppleMusic } = require("better-erela.js-apple");
 const deezer = require("erela.js-deezer");
 const facebook = require("erela.js-facebook");
 const mongoose = require('mongoose');
-const { LavasfyClient } = require('lavasfy');
+const filters = require("erela.js-filters");
 
 class MusicBot extends Client {
 
     constructor(
         props = {
+            partials: [
+                Partials.Channel, // for text channel
+                Partials.GuildMember, // for guild member
+                Partials.User, // for discord user
+            ],
             intents: [
                 GatewayIntentBits.Guilds,
                 GatewayIntentBits.GuildInvites,
@@ -65,25 +70,6 @@ class MusicBot extends Client {
         this.io = new Server(this.http);
         require('../express/socket')(this.io);
 
-        this.Lavasfy = new LavasfyClient(
-            {
-                clientID: this.config.Spotify.ClientID,
-                clientSecret: this.config.Spotify.ClientSecret,
-                playlistLoadLimit: 100,
-                audioOnlyResults: true,
-                autoResolve: true,
-                useSpotifyMetadata: true
-            },
-            [
-                {
-                    id: this.config.lavalink.id,
-                    host: this.config.lavalink.host,
-                    port: this.config.lavalink.port,
-                    password: this.config.lavalink.pass,
-                },
-            ]
-        );
-
         // Initiate the Manager with some options and listen to some events.
         this.manager = new Manager({
             autoPlay: true,
@@ -91,7 +77,7 @@ class MusicBot extends Client {
             plugins: [
                 new deezer(),
                 new AppleMusic(),
-                // new Spotify(),
+                new Spotify(),
                 new facebook(),
             ],
             autoPlay: true,
@@ -138,7 +124,7 @@ class MusicBot extends Client {
                 const playEmbed = new EmbedBuilder(msgEmbed);
                 playEmbed.addFields({ name: `Requested By`, value: `${track.requester.username}`, inline: true });
                 if (client.skipSong[player.guild] && client.skipBy[player.guild]) {
-                    playEmbed.addField(`Skip By`, `${client.skipBy[player.guild].username}`, true);
+                    playEmbed.addFields({ name: `Skip By`, value: `${client.skipBy[player.guild].username}`, inline: true });
                     client.skipSong[player.guild] = false;
                     client.skipBy[player.guild] = false;
                 }
@@ -166,53 +152,30 @@ class MusicBot extends Client {
                     },
                 };
 
-                const row = new MessageActionRow().addComponents([
-                    new MessageButton()
+                const row = new ActionRowBuilder().addComponents([
+                    new ButtonBuilder()
                         .setCustomId('pause')
                         .setLabel('⏸️ Pause')
-                        .setStyle('PRIMARY'),
-                    new MessageButton()
+                        .setStyle(ButtonStyle.Primary),
+                    new ButtonBuilder()
                         .setCustomId('skip')
                         .setLabel('⏭️ Skip')
-                        .setStyle('SECONDARY'),
-                    new MessageButton()
-                        .setCustomId('loop')
-                        .setLabel('🔁 Loop')
-                        .setStyle('DANGER'),
-                    new MessageButton()
-                        .setCustomId('stop')
-                        .setLabel('⏹️ Stop')
-                        .setStyle('SECONDARY'),
-                    new MessageButton()
-                        .setCustomId('fix')
-                        .setLabel('⚒️ Repair')
-                        .setStyle('SECONDARY'),
-                ]);
-
-                const row1 = new MessageActionRow().addComponents([
-                    new MessageButton()
-                        .setCustomId('summon')
-                        .setLabel('⚡ Summon')
-                        .setStyle('SECONDARY'),
-                    new MessageButton()
-                        .setCustomId('queuelist')
-                        .setLabel('🧾 Queue List')
-                        .setStyle('SECONDARY'),
-                    new MessageButton()
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
                         .setCustomId('clear')
                         .setLabel('🗑️ Clear')
-                        .setStyle('SECONDARY'),
-                    new MessageButton()
-                        .setCustomId('grab')
-                        .setLabel('🎣 Grab')
-                        .setStyle('SECONDARY'),
-                    new MessageButton()
-                        .setCustomId('stats')
-                        .setLabel('👾 Stats')
-                        .setStyle('SECONDARY'),
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('stop')
+                        .setLabel('⏹️ Stop')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('fix')
+                        .setLabel('⚒️ Repair')
+                        .setStyle(ButtonStyle.Secondary),
                 ]);
 
-                musicMsg.edit({ content: `**[ Nothing Playing ]**\nJoin a voice channel and queue songs by name or url in here.`, embeds: [embed], components: [row, row1] });
+                musicMsg.edit({ content: `**[ Nothing Playing ]**\nJoin a voice channel and queue songs by name or url in here.`, embeds: [embed], components: [row] });
 
                 player.destroy();
             });

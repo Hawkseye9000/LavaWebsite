@@ -20,9 +20,9 @@ module.exports = {
         .setLabel('⏭️ Skip')
         .setStyle(ButtonStyle.Secondary),
       new ButtonBuilder()
-        .setCustomId('loop')
-        .setLabel('🔁 Loop')
-        .setStyle(ButtonStyle.Danger),
+        .setCustomId('clear')
+        .setLabel('🗑️ Clear')
+        .setStyle(ButtonStyle.Secondary),
       new ButtonBuilder()
         .setCustomId('stop')
         .setLabel('⏹️ Stop')
@@ -30,29 +30,6 @@ module.exports = {
       new ButtonBuilder()
         .setCustomId('fix')
         .setLabel('⚒️ Repair')
-        .setStyle(ButtonStyle.Secondary),
-    ]);
-
-    const row1 = new ActionRowBuilder().addComponents([
-      new ButtonBuilder()
-        .setCustomId('summon')
-        .setLabel('⚡ Summon')
-        .setStyle(ButtonStyle.Secondary),
-      new ButtonBuilder()
-        .setCustomId('queuelist')
-        .setLabel('🧾 Queue List')
-        .setStyle(ButtonStyle.Secondary),
-      new ButtonBuilder()
-        .setCustomId('clear')
-        .setLabel('🗑️ Clear')
-        .setStyle(ButtonStyle.Secondary),
-      new ButtonBuilder()
-        .setCustomId('grab')
-        .setLabel('🎣 Grab')
-        .setStyle(ButtonStyle.Secondary),
-      new ButtonBuilder()
-        .setCustomId('stats')
-        .setLabel('👾 Stats')
         .setStyle(ButtonStyle.Secondary),
     ]);
 
@@ -72,7 +49,7 @@ module.exports = {
       },
     };
     client.musicMessage[interaction.guildId] = await interaction.channel.messages.fetch(MusicDB.musicMessageId);
-    client.musicMessage[interaction.guildId].edit({ content: `**[ Nothing Playing ]**\nJoin a voice channel and queue songs by name or url in here.`, embeds: [embed], components: [row, row1] });
+    client.musicMessage[interaction.guildId].edit({ content: `**[ Nothing Playing ]**\nJoin a voice channel and queue songs by name or url in here.`, embeds: [embed], components: [row] });
     return interaction.reply({ content: `fixed` }).catch(err => { client.error(err) });
   }
 }
