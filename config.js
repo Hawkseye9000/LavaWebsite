@@ -6,7 +6,7 @@ module.exports = {
     Admins: ["UserID", "UserID"],
     buildToken: process.env.BUILD_TOKEN || 'build token',
     Token: process.env.TOKEN || 'bot token',
-    ExpressServer: true,
+    ExpressServer: false,
     httpPort: process.env.HTTP_PORT || 'need port',
     httpsPort: process.env.HTTPS_PORT || '443',
     CallbackURL: process.env.CALLBACK_URL || '',

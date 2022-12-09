@@ -242,12 +242,15 @@ class MusicBot extends Client {
     }
 
     build() {
-        this.warn('Server is starting');
+        this.warn('Getting Ready....');
         this.login(this.config.Token);
-        this.log('Server started...');
-        this.http.listen(this.config.httpPort, () =>
-            this.log(`Web HTTP Server has been started at ${this.config.httpPort}`)
-        );
+        if (this.config.ExpressServer) {
+            this.warn('Server is starting');
+            this.log('Server started...');
+            this.http.listen(this.config.httpPort, () =>
+                this.log(`Web HTTP Server has been started at ${this.config.httpPort}`)
+            );
+        }
 
         this.MongooseConnect();
     }
