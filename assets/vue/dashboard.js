@@ -3,7 +3,7 @@ var app = new Vue({
     data() {
         return {
             user: [],
-            bot: [],
+            guilds: [],
             session: [],
         }
     },
@@ -12,10 +12,8 @@ var app = new Vue({
             .then(response => response.json())
             .then(data => (this.user = data))
 
-        fetch('/api/dashboard/bot')
+        fetch('/api/user')
             .then(response => response.json())
-            .then(data => (this.bot = data))
-
-        fetch('/api/dashboard/session')
+            .then(data => (this.guilds = data.user.guilds))
     }
 });

@@ -11,7 +11,7 @@ module.exports = {
     member: [],
   },
   aliases: [],
-  category: "music",
+  category: "settings",
   SlashCommand: {
     options: [
       {

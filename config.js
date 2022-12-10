@@ -1,4 +1,5 @@
 require('dotenv').config();
+const { ActivityType } = require("discord.js");
 
 module.exports = {
     Id: process.env.Discord_ClientID,
@@ -6,7 +7,7 @@ module.exports = {
     Admins: ["UserID", "UserID"],
     buildToken: process.env.BUILD_TOKEN || 'build token',
     Token: process.env.TOKEN || 'bot token',
-    ExpressServer: false,
+    ExpressServer: true,
     httpPort: process.env.HTTP_PORT || 'need port',
     httpsPort: process.env.HTTPS_PORT || '443',
     CallbackURL: process.env.CALLBACK_URL || '',
@@ -26,8 +27,8 @@ module.exports = {
         status: "idle", // online, idle, and dnd(invisible too but it make people think the bot is offline)
         activities: [
             {
-                name: "Server", //Status Text
-                type: "WATCHING", // PLAYING, WATCHING, LISTENING, STREAMING
+                name: "Music", //Status Text
+                type: ActivityType.Playing, // PLAYING, WATCHING, LISTENING, STREAMING
             },
         ],
     },
