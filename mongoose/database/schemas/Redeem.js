@@ -21,7 +21,7 @@ const RedeemSchema = new mongoose.Schema({
         type: mongoose.SchemaTypes.String,
         require: false,
         default: null,
-    }
+    },
 });
 
 module.exports = mongoose.model('Redeem', RedeemSchema);
