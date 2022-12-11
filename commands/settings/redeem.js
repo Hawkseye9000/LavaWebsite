@@ -1,0 +1,52 @@
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const fetch = require('node-fetch');
+const GenerateToken = require('generate-serial-key');
+const Redeem = require("../../mongoose/database/schemas/Redeem");
+const GuildConfig = require("../../mongoose/database/schemas/GuildConfig");
+
+module.exports = {
+    name: "redeem",
+    description: "Make your bot premium",
+    usage: "",
+    permissions: {
+        channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+        member: [],
+    },
+    aliases: [],
+    category: "settings",
+    SlashCommand: {
+        options: [
+            {
+                name: "token",
+                description: "Need Redeem Code",
+                value: "token",
+                type: 3,
+                required: true,
+            },
+        ],
+        /**
+         *
+         * @param {import("../structures/DiscordMusicBot")} client
+         * @param {import("discord.js").Message} message
+         * @param {string[]} args
+         * @param {*} param3
+         */
+        run: async (client, interaction, args, { MusicDB }) => {
+            const token = args.value;
+
+            const data = await Redeem.findOne({ token: token });
+
+            if (data && !data.guildId) {
+                const updateRedeem = await Redeem.findOneAndUpdate({ token: token }, {
+                    used: true,
+                    guildId: interaction.guild.id,
+                    userId: interaction.user.id,
+                });
+
+                console.log(updateRedeem);
+            } else return interaction.reply(`Invalid Token : ${token}`).catch(err => { client.error(err) });
+
+            return interaction.reply(`Token has been redeem : ${token}`).catch(err => { client.error(err) });
+        },
+    },
+};
