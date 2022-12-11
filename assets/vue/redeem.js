@@ -1,10 +1,9 @@
 var app = new Vue({
-    el: '#dashboard',
+    el: '#redeem',
     data() {
         return {
             user: [],
-            guilds: [],
-            session: [],
+            tokens: []
         }
     },
     created() {
@@ -12,8 +11,8 @@ var app = new Vue({
             .then(response => response.json())
             .then(data => (this.user = data))
 
-        fetch('/api/user')
+        fetch('/api/redeem')
             .then(response => response.json())
-            .then(data => (this.guilds = data.user.guilds))
+            .then(data => (this.tokens = data))
     }
 });

@@ -24,7 +24,7 @@ module.exports = {
        * @param {*} param3
        */
         run: async (client, interaction) => {
-            const { version, MessageEmbed } = require("discord.js");
+            const { version, EmbedBuilder } = require("discord.js");
             cpuStat.usagePercent(async function (err, percent, seconds) {
                 if (err) {
                     return console.log(err);
@@ -33,8 +33,7 @@ module.exports = {
                     .duration(client.uptime)
                     .format(" D[d], H[h], m[m]");
 
-                const embed = new MessageEmbed();
-                embed.setColor('RANDOM');
+                const embed = new EmbedBuilder();
                 embed.setTitle(`Stats from \`${client.user.username}\``);
                 embed.addFields(
                     {

@@ -40,6 +40,10 @@ api.get("/dashboard", Auth, (req, res) => {
   res.sendFile(join(__dirname, "..", "webview", "dashboard.html"));
 });
 
+api.get("/redeem", Auth, (req, res) => {
+  res.sendFile(join(__dirname, "..", "webview", "redeem.html"));
+});
+
 // api.get("/passbook", Auth, (req, res) => {
 //   res.sendFile(join(__dirname, "..", "webview", "passbook.html"));
 // });

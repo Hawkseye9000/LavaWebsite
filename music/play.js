@@ -14,7 +14,7 @@ module.exports = {
   category: "inbuild",
   run: async (client, message, { MusicDB }) => {
     if (!message.member.voice.channel) return message.channel.send(`❌ | **You must be in a voice channel to play something!**`);
-    if (message.guild.me.voice.channel && message.member.voice.channel.id !== message.guild.me.voice.channel.id) return message.channel.send(`❌ | **You must be in the same voice channel as me to play something!**`);
+    if (message.guild.members.me.voice.channel && message.member.voice.channel.id !== message.guild.members.me.voice.channel.id) return message.channel.send(`❌ | **You must be in the same voice channel as me to play something!**`);
     let SearchString = message.content;
     let CheckNode = client.manager.nodes.get(client.config.lavalink.host);
 

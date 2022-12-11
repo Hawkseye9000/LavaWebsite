@@ -1,5 +1,5 @@
 const random = require("something-random-on-discord").Random;
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
   name: "advice",
@@ -22,7 +22,7 @@ module.exports = {
     run: async (client, interaction) => {
       let data = await random.getAdvice();
       data = data.embed;
-      const embed = new MessageEmbed(data);
+      const embed = new EmbedBuilder(data);
 
       return interaction.reply({ embeds: [embed] }).catch((err) => client.error(err));
     }

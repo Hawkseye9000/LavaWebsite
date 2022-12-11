@@ -1,4 +1,4 @@
-const { Client, Collection, Intents, MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { Client, GatewayIntentBits, Partials, Collection, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const ConfigFetcher = require('../config');
 const { Server } = require("socket.io");
 const http = require("http");
@@ -14,18 +14,24 @@ const { default: AppleMusic } = require("better-erela.js-apple");
 const deezer = require("erela.js-deezer");
 const facebook = require("erela.js-facebook");
 const mongoose = require('mongoose');
+const filters = require("erela.js-filters");
 
 class MusicBot extends Client {
 
     constructor(
         props = {
+            partials: [
+                Partials.Channel, // for text channel
+                Partials.GuildMember, // for guild member
+                Partials.User, // for discord user
+            ],
             intents: [
-                Intents.FLAGS.GUILDS,
-                Intents.FLAGS.GUILD_INVITES,
-                Intents.FLAGS.GUILD_MEMBERS,
-                Intents.FLAGS.GUILD_VOICE_STATES,
-                Intents.FLAGS.GUILD_MESSAGES,
-                Intents.FLAGS.MESSAGE_CONTENT,
+                GatewayIntentBits.Guilds,
+                GatewayIntentBits.GuildInvites,
+                GatewayIntentBits.GuildMembers,
+                GatewayIntentBits.GuildVoiceStates,
+                GatewayIntentBits.GuildMessages,
+                GatewayIntentBits.MessageContent,
             ],
         }
 
@@ -72,7 +78,7 @@ class MusicBot extends Client {
                 new deezer(),
                 new AppleMusic(),
                 new Spotify(),
-                // new facebook(),
+                new facebook(),
             ],
             autoPlay: true,
             retryDelay: this.config.retryDelay,
@@ -115,10 +121,10 @@ class MusicBot extends Client {
                         iconURL: `${client.user.avatarURL()}`,
                     },
                 };
-                const playEmbed = new MessageEmbed(msgEmbed);
-                playEmbed.addField(`Requested By`, `${track.requester.username}`, true);
+                const playEmbed = new EmbedBuilder(msgEmbed);
+                playEmbed.addFields({ name: `Requested By`, value: `${track.requester.username}`, inline: true });
                 if (client.skipSong[player.guild] && client.skipBy[player.guild]) {
-                    playEmbed.addField(`Skip By`, `${client.skipBy[player.guild].username}`, true);
+                    playEmbed.addFields({ name: `Skip By`, value: `${client.skipBy[player.guild].username}`, inline: true });
                     client.skipSong[player.guild] = false;
                     client.skipBy[player.guild] = false;
                 }
@@ -146,53 +152,30 @@ class MusicBot extends Client {
                     },
                 };
 
-                const row = new MessageActionRow().addComponents([
-                    new MessageButton()
+                const row = new ActionRowBuilder().addComponents([
+                    new ButtonBuilder()
                         .setCustomId('pause')
                         .setLabel('⏸️ Pause')
-                        .setStyle('PRIMARY'),
-                    new MessageButton()
+                        .setStyle(ButtonStyle.Primary),
+                    new ButtonBuilder()
                         .setCustomId('skip')
                         .setLabel('⏭️ Skip')
-                        .setStyle('SECONDARY'),
-                    new MessageButton()
-                        .setCustomId('loop')
-                        .setLabel('🔁 Loop')
-                        .setStyle('DANGER'),
-                    new MessageButton()
-                        .setCustomId('stop')
-                        .setLabel('⏹️ Stop')
-                        .setStyle('SECONDARY'),
-                    new MessageButton()
-                        .setCustomId('fix')
-                        .setLabel('⚒️ Repair')
-                        .setStyle('SECONDARY'),
-                ]);
-
-                const row1 = new MessageActionRow().addComponents([
-                    new MessageButton()
-                        .setCustomId('summon')
-                        .setLabel('⚡ Summon')
-                        .setStyle('SECONDARY'),
-                    new MessageButton()
-                        .setCustomId('queuelist')
-                        .setLabel('🧾 Queue List')
-                        .setStyle('SECONDARY'),
-                    new MessageButton()
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
                         .setCustomId('clear')
                         .setLabel('🗑️ Clear')
-                        .setStyle('SECONDARY'),
-                    new MessageButton()
-                        .setCustomId('grab')
-                        .setLabel('🎣 Grab')
-                        .setStyle('SECONDARY'),
-                    new MessageButton()
-                        .setCustomId('stats')
-                        .setLabel('👾 Stats')
-                        .setStyle('SECONDARY'),
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('stop')
+                        .setLabel('⏹️ Stop')
+                        .setStyle(ButtonStyle.Secondary),
+                    new ButtonBuilder()
+                        .setCustomId('fix')
+                        .setLabel('⚒️ Repair')
+                        .setStyle(ButtonStyle.Secondary),
                 ]);
 
-                musicMsg.edit({ content: `**[ Nothing Playing ]**\nJoin a voice channel and queue songs by name or url in here.`, embeds: [embed], components: [row, row1] });
+                musicMsg.edit({ content: `**[ Nothing Playing ]**\nJoin a voice channel and queue songs by name or url in here.`, embeds: [embed], components: [row] });
 
                 player.destroy();
             });
@@ -259,12 +242,15 @@ class MusicBot extends Client {
     }
 
     build() {
-        this.warn('Server is starting');
+        this.warn('Getting Ready....');
         this.login(this.config.Token);
-        this.log('Server started...');
-        this.http.listen(this.config.httpPort, () =>
-            this.log(`Web HTTP Server has been started at ${this.config.httpPort}`)
-        );
+        if (this.config.ExpressServer) {
+            this.warn('Server is starting');
+            this.log('Server started...');
+            this.http.listen(this.config.httpPort, () =>
+                this.log(`Web HTTP Server has been started at ${this.config.httpPort}`)
+            );
+        }
 
         this.MongooseConnect();
     }

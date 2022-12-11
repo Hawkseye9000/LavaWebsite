@@ -1,4 +1,5 @@
 require('dotenv').config();
+const { ActivityType } = require("discord.js");
 
 module.exports = {
     Id: process.env.Discord_ClientID,
@@ -26,9 +27,15 @@ module.exports = {
         status: "idle", // online, idle, and dnd(invisible too but it make people think the bot is offline)
         activities: [
             {
-                name: "Server", //Status Text
-                type: "WATCHING", // PLAYING, WATCHING, LISTENING, STREAMING
+                name: "Music", //Status Text
+                type: ActivityType.Playing, // PLAYING, WATCHING, LISTENING, STREAMING
             },
         ],
     },
+
+    Spotify: {
+        ClientID: process.env.Spotify_ClientID || "", //Spotify Client ID
+        ClientSecret: process.env.Spotify_ClientSecret || "", //Spotify Client Secret
+    },
+
 };

@@ -1,6 +1,6 @@
 const { Client } = require("discord.js");
 const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
+const { Routes } = require('discord-api-types/v10');
 
 /**
  * Register slash commands for a guild
@@ -10,7 +10,7 @@ const { Routes } = require('discord-api-types/v9');
 
 module.exports = (client) => {
 
-    const rest = new REST({ version: '9' }).setToken(client.config.Token);
+    const rest = new REST({ version: '10' }).setToken(client.config.Token);
 
     (async () => {
         try {
