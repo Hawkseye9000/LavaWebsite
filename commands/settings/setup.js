@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionsBitField } = require("discord.js");
 const fetch = require('node-fetch');
 const GuildConfig = require("../../mongoose/database/schemas/GuildConfig");
 
@@ -30,7 +30,7 @@ module.exports = {
      * @param {*} param3
      */
     run: async (client, interaction, args, { MusicDB }) => {
-      if (!interaction.member.permissions.has('MANAGE_GUILD')) return interaction.reply(`you dont have manage guild permission to run this command`).catch(err => { client.error(err) });
+      if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageGuild)) return interaction.reply(`you dont have manage guild permission to run this command`).catch(err => { client.error(err) });
       const music_channel = args.channel;
       const embed = {
         title: `🎵 Vibing Music 🎵`,

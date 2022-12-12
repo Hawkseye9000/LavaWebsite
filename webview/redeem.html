@@ -456,7 +456,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="token in tokens">
+                        <tr v-for="token in tokens" v-if="token.userId == user.discordId">
                           <td>{{ token.token }}</td>
                           <td class="font-weight-bold">{{ token.used }}</td>
                           <td>{{ token.guildId ? token.guildId : 'N/A' }}</td>
