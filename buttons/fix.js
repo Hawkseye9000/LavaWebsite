@@ -1,4 +1,4 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageEmbed } = require("discord.js");
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle, MessageEmbed, PermissionsBitField } = require("discord.js");
 
 module.exports = {
   name: 'fix',
@@ -6,7 +6,7 @@ module.exports = {
     const language = require(`../language/${MusicDB.language}.js`);
     console.log(language);
     let player = await client.manager.get(interaction.guildId);
-    if (!interaction.member.permissions.has('ADMINISTRATOR')) return interaction.reply({ content: `You dont have permission to do that` }).catch(err => { client.error(err) });
+    if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) return interaction.reply({ content: `You dont have permission to do that` }).catch(err => { client.error(err) });
     if (player) {
       client.guildQueue[player.guild] = 0;
       player.destroy();

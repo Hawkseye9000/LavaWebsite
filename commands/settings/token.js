@@ -1,4 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionsBitField } = require("discord.js");
 const fetch = require('node-fetch');
 const GenerateToken = require('generate-serial-key');
 const Redeem = require("../../mongoose/database/schemas/Redeem");
@@ -32,7 +32,7 @@ module.exports = {
          * @param {*} param3
          */
         run: async (client, interaction, args, { MusicDB }) => {
-            if (!interaction.member.permissions.has('ADMINISTRATOR')) return interaction.reply(`you dont have manage guild permission to run this command`).catch(err => { client.error(err) });
+            if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) return interaction.reply(`you dont have manage guild permission to run this command`).catch(err => { client.error(err) });
             const user = args.user;
             if (!interaction.user.id == '456130838183280651' || !interaction.user.id == '963655683658629150')
                 return interaction.reply('You dont have permission to authorize tokens');

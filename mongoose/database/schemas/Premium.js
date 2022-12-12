@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const PremuimSchema = new mongoose.Schema({
+const PremiumSchema = new mongoose.Schema({
     guildId: {
         type: mongoose.SchemaTypes.String,
         require: true,
@@ -17,6 +17,11 @@ const PremuimSchema = new mongoose.Schema({
         require: false,
         default: '1990-01-01T00:00:00.000+00:00',
     },
+    expire: {
+        type: mongoose.SchemaTypes.Boolean,
+        require: false,
+        default: false,
+    },
     blackList: {
         type: mongoose.SchemaTypes.Boolean,
         require: false,
@@ -24,4 +29,4 @@ const PremuimSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('Premuim', PremuimSchema);
+module.exports = mongoose.model('Premium', PremiumSchema);

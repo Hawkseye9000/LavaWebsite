@@ -40,8 +40,9 @@ module.exports = {
 
             const premium = await Premium.findOne({ guildId: interaction.guild.id });
 
-            if (premium.time > Date.now())
-                return interaction.reply(`Premirm is already activaded \nApply after:  **${premium.time}**`).catch(err => { client.error(err) });
+            if (premium)
+                if (premium.time > Date.now())
+                    return interaction.reply(`Premirm is already activaded \nApply after:  **${premium.time}**`).catch(err => { client.error(err) });
 
             if (data && !data.guildId) {
                 const updateRedeem = await Redeem.findOneAndUpdate({ token: token }, {
@@ -54,7 +55,8 @@ module.exports = {
                 if (premium) {
                     await Premium.findOneAndUpdate({ guildId: interaction.guild.id }, {
                         token: token,
-                        time: premiumTime
+                        time: premiumTime,
+                        expire: false
                     });
                 } else {
                     await Premium.create({
