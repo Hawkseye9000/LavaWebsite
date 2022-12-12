@@ -23,6 +23,7 @@ module.exports = {
       let data = await random.getFact();
       data = data.embed;
       const embed = new EmbedBuilder(data);
+      embed.setColor(0x0099FF);
 
       return interaction.reply({ embeds: [embed] }).catch((err) => client.error(err));
     }

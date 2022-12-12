@@ -23,6 +23,7 @@ module.exports = {
       let data = await random.getMeme();
       data = data.embed;
       let meme = new EmbedBuilder(data);
+      embed.setColor(0x0099FF);
 
       return interaction.reply({ embeds: [meme] }).catch((err) => client.error(err));
     },
