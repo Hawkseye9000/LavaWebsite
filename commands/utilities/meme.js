@@ -22,10 +22,10 @@ module.exports = {
     run: async (client, interaction) => {
       let data = await random.getMeme();
       data = data.embed;
-      let meme = new EmbedBuilder(data);
+      let embed = new EmbedBuilder(data);
       embed.setColor(0x0099FF);
 
-      return interaction.reply({ embeds: [meme] }).catch((err) => client.error(err));
+      return interaction.reply({ embeds: [embed] }).catch((err) => client.error(err));
     },
   },
 };

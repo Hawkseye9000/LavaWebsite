@@ -44,6 +44,10 @@ api.get("/redeem", Auth, (req, res) => {
   res.sendFile(join(__dirname, "..", "webview", "redeem.html"));
 });
 
+api.get("/save-song", Auth, (req, res) => {
+  res.sendFile(join(__dirname, "..", "webview", "music.html"));
+});
+
 // api.get("/passbook", Auth, (req, res) => {
 //   res.sendFile(join(__dirname, "..", "webview", "passbook.html"));
 // });

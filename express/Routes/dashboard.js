@@ -1,7 +1,8 @@
 const client = require("../../");
 const api = require("express").Router();
+const Auth = require("../Middlewares/Auth");
 
-api.get('/', async (req, res) => {
+api.get('/', Auth, async (req, res) => {
     if (req.user)
         return res.send(req.user);
     else return res.send(false);

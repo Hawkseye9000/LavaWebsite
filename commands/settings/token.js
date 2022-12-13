@@ -34,6 +34,7 @@ module.exports = {
         run: async (client, interaction, args, { MusicDB }) => {
             if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) return interaction.reply(`you dont have manage guild permission to run this command`).catch(err => { client.error(err) });
             const user = args.user;
+            console.log(interaction.user.id);
             if (!interaction.user.id == '456130838183280651' || !interaction.user.id == '963655683658629150')
                 return interaction.reply('You dont have permission to authorize tokens');
 
