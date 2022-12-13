@@ -4,7 +4,7 @@ module.exports = {
   name: 'fix',
   run: async (client, interaction, parms, { MusicDB }) => {
     const language = require(`../language/${MusicDB.language}.js`);
-    console.log(language);
+    // console.log(language);
     let player = await client.manager.get(interaction.guildId);
     if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) return interaction.reply({ content: `You dont have permission to do that` }).catch(err => { client.error(err) });
     if (player) {
