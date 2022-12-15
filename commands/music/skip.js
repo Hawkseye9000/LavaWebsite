@@ -10,6 +10,7 @@ module.exports = {
     },
     aliases: [],
     category: "music",
+    premium: true,
     SlashCommand: {
         run: async (client, interaction) => {
             const guild = client.guilds.cache.get(interaction.guildId);
