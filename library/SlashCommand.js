@@ -1,8 +1,6 @@
-const { Client } = require("discord.js");
+const { Client, REST, Routes } = require("discord.js");
 const fs = require("fs");
 const path = require("path");
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v10');
 
 /**
  * Register slash commands for a guild

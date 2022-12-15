@@ -4,7 +4,7 @@ const api = require("express").Router();
 
 api.get('/save', async (req, res) => {
     if (req.user) {
-        const data = await SaveMusic.find({ userID: req.user.discordId });
+        const data = await SaveMusic.find({ userId: req.user.discordId });
         if (data) return res.send(data)
     }
     else return res.send(false);

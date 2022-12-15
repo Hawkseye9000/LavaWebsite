@@ -8,7 +8,9 @@ module.exports = async (client) => {
     client.user.setPresence(client.config.presence);
   client.log("Successfully Logged in as " + client.user.tag);
   client.manager.init(client.user.id);
-  client.RegisterSlashCommands();
+  // await client.DeRegisterGlobalSlashCommands();
+  // await client.DeRegisterGuildSlashCommands();
+  await client.RegisterSlashCommands();
   client.guilds.cache.forEach(async (data) => {
     client.skipSong[data.id] = false;
     client.skipBy[data.id] = false;
