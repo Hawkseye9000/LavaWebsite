@@ -58,7 +58,6 @@ module.exports = {
                 const embed = new EmbedBuilder();
                 const cat = args.value;
                 const commands = client.Commands;
-                console.log(client.Commands);
                 const catCommands = [];
                 commands.forEach((cmd) => {
                     if (cmd.category != cat) return;

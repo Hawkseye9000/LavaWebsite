@@ -23,8 +23,6 @@ module.exports = {
 
             if (!player) return interaction.reply({ content: `There are no songs in the queue.` }).catch(err => { client.error(err) });
 
-            // return console.log(player.queue.current);
-
             var lyrics;
 
             await search(player.queue.current.title).then(data => {

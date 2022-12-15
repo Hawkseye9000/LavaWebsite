@@ -23,8 +23,6 @@ module.exports = {
 
             if (!player) return interaction.reply({ content: `There are no songs in the queue.` }).catch(err => { client.error(err) });
 
-            // return console.log(player.queue.current);
-
             const data = await SaveMusic.findOne({ userId: interaction.user.id, trackId: player.queue.current.identifier });
 
             if (data) return interaction.reply({ content: `Current Music is already save.` }).catch(err => { client.error(err) });

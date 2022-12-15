@@ -4,7 +4,6 @@ module.exports = {
   name: 'play',
   run: async (client, interaction, parms) => {
     const player = await client.manager.get(interaction.guildId);
-    console.log(player);
     const guild = client.guilds.cache.get(interaction.guildId);
     const member = guild.members.cache.get(interaction.member.user.id);
     if (!player) return interaction.reply({ content: `❌ | **Nothing in Queue to play right now...**` }).catch(err => { client.error(err) });
