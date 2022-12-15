@@ -14,5 +14,6 @@ module.exports = async (client) => {
   client.guilds.cache.forEach(async (data) => {
     client.skipSong[data.id] = false;
     client.skipBy[data.id] = false;
+    client.twentyFourSeven[data.id] = false;
   });
 };

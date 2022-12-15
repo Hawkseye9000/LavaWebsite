@@ -11,6 +11,11 @@ const GuildConfigSchema = new mongoose.Schema({
     require: true,
     default: '!',
   },
+  twentyFourSeven: {
+    type: mongoose.SchemaTypes.Boolean,
+    require: false,
+    default: false,
+  },
   musicChannelId: {
     type: mongoose.SchemaTypes.String,
     require: false,

@@ -45,6 +45,7 @@ class MusicBot extends Client {
 
         this.skipSong = [];
         this.skipBy = [];
+        this.twentyFourSeven = [];
 
         this.SlashCommands = new Collection();
         this.Commands = new Collection();
@@ -177,7 +178,8 @@ class MusicBot extends Client {
 
                 musicMsg.edit({ content: `**[ Nothing Playing ]**\nJoin a voice channel and queue songs by name or url in here.`, embeds: [embed], components: [row] });
 
-                player.destroy();
+                if (!client.twentyFourSeven[player.guild])
+                    player.destroy();
             });
     }
 

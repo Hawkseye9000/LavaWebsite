@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const fetch = require('node-fetch');
+const GuildConfig = require("../mongoose/database/schemas/GuildConfig");
 
 
 module.exports = {
@@ -29,6 +30,9 @@ module.exports = {
       textChannel: message.channel.id,
       selfDeafen: true,
     });
+
+    const GuildData = await GuildConfig.findOne({ guildId: message.guild.id });
+    client.twentyFourSeven[message.guild.id] = GuildData.twentyFourSeven;
 
     if (!player) return message.channel.send(`❌ | **Nothing is playing right now...**`);
 

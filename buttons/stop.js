@@ -7,7 +7,12 @@ module.exports = {
     if (!interaction.member.voice.channel) return interaction.reply({ content: "❌ | **You must be in a voice channel to use this command.**" }).catch(err => { client.error(err) });
     if (!interaction.member.permissions.has(PermissionsBitField.Flags.MoveMembers)) return interaction.reply({ content: `You dont have permission to do that` }).catch(err => { client.error(err) });
     if (!player) return interaction.reply({ content: `Nothing is playing right now` }).catch(err => { client.error(err) });
-    player.destroy();
+    if (!client.twentyFourSeven[player.guild])
+      player.destroy();
+    else {
+      player.queue.clear();
+      player.stop();
+    }
 
     const row = new ActionRowBuilder().addComponents([
       new ButtonBuilder()

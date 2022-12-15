@@ -8,7 +8,12 @@ module.exports = {
     if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) return interaction.reply({ content: `You dont have permission to do that` }).catch(err => { client.error(err) });
     if (player) {
       client.guildQueue[player.guild] = 0;
-      player.destroy();
+      if (!client.twentyFourSeven[player.guild])
+        player.destroy();
+      else {
+        player.queue.clear();
+        player.stop();
+      }
     }
 
     const row = new ActionRowBuilder().addComponents([
