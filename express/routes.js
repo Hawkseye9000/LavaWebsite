@@ -21,6 +21,7 @@ categories.filter((cat) => !cat.endsWith('.js')).forEach((cat) => {
       usage: cmd.usage,
       description: cmd.description,
       slash: cmd.SlashCommand ? true : false,
+      premium: cmd.premium ? cmd.premium : false,
     });
   })
 });
