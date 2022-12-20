@@ -1,4 +1,3 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const search = require('lyrics-searcher-musixmatch').default;
 
 module.exports = {
@@ -11,7 +10,7 @@ module.exports = {
     },
     aliases: [],
     category: "music",
-    premium: true,
+    premium: false,
     SlashCommand: {
         run: async (client, interaction, args, { MusicDB }) => {
             let channel = interaction.channel;

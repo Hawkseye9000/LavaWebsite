@@ -1,5 +1,3 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-
 module.exports = {
     name: 'skip',
     description: 'Skip the current song',
@@ -10,7 +8,7 @@ module.exports = {
     },
     aliases: [],
     category: "music",
-    premium: true,
+    premium: false,
     SlashCommand: {
         run: async (client, interaction) => {
             const guild = client.guilds.cache.get(interaction.guildId);
