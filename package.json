@@ -49,7 +49,7 @@
     "passport-discord": "^0.1.4",
     "path": "^0.12.7",
     "pretty-ms": "^2.1.0",
-    "socket.io": "^4.5.3",
+    "socket.io": "^4.5.4",
     "something-random-on-discord": "^3.4.4"
   }
 }
