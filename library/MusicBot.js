@@ -80,6 +80,7 @@ class MusicBot extends Client {
                 new AppleMusic(),
                 new Spotify(),
                 new facebook(),
+                new filters(),
             ],
             autoPlay: true,
             retryDelay: this.config.retryDelay,
