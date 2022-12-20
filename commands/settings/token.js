@@ -1,8 +1,6 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionsBitField } = require("discord.js");
-const fetch = require('node-fetch');
+const { PermissionsBitField } = require("discord.js");
 const GenerateToken = require('generate-serial-key');
 const Redeem = require("../../mongoose/database/schemas/Redeem");
-const GuildConfig = require("../../mongoose/database/schemas/GuildConfig");
 
 module.exports = {
     name: "token",
@@ -10,7 +8,7 @@ module.exports = {
     usage: "",
     permissions: {
         channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
-        member: [],
+        member: ["ADMINISTRATOR"],
     },
     aliases: [],
     category: "settings",
@@ -31,11 +29,13 @@ module.exports = {
          * @param {string[]} args
          * @param {*} param3
          */
-        run: async (client, interaction, args, { MusicDB }) => {
+        run: async (client, interaction, args) => {
             if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) return interaction.reply(`you dont have manage guild permission to run this command`).catch(err => { client.error(err) });
             const user = args.user;
-            if (!interaction.user.id == '456130838183280651' || !interaction.user.id == '963655683658629150')
-                return interaction.reply('You dont have permission to authorize tokens');
+            if (interaction.user.id == '456130838183280651' || interaction.user.id == '963655683658629150')
+                client.log('You dont have permission to authorize tokens');
+            else
+                return interaction.reply('You dont have permission to authorize tokens').catch(err => { client.error(err) });
 
             var tempToken = GenerateToken.generate(28, '-', 4);
 

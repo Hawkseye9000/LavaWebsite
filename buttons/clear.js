@@ -1,5 +1,3 @@
-const { EmbedBuilder } = require('discord.js');
-
 module.exports = {
   name: 'clear',
   run: async (client, interaction, parms, { MusicDB }) => {

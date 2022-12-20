@@ -1,9 +1,5 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const fetch = require('node-fetch');
-const GenerateToken = require('generate-serial-key');
 const ms = require("parse-ms");
 const Redeem = require("../../mongoose/database/schemas/Redeem");
-const GuildConfig = require("../../mongoose/database/schemas/GuildConfig");
 const Premium = require("../../mongoose/database/schemas/Premium");
 
 module.exports = {
@@ -33,16 +29,14 @@ module.exports = {
          * @param {string[]} args
          * @param {*} param3
          */
-        run: async (client, interaction, args, { MusicDB }) => {
+        run: async (client, interaction, args) => {
             const token = args.value;
 
             const data = await Redeem.findOne({ token: token });
 
             const premium = await Premium.findOne({ guildId: interaction.guild.id });
 
-            if (premium)
-                if (premium.time > Date.now())
-                    return interaction.reply(`Premirm is already activaded \nApply after:  **${premium.time}**`).catch(err => { client.error(err) });
+            console.log(ms(premium.time - Date.now()))
 
             if (data && !data.guildId) {
                 const updateRedeem = await Redeem.findOneAndUpdate({ token: token }, {
@@ -53,6 +47,8 @@ module.exports = {
                 var premiumTime = Date.now() + (60000 * 60 * 24 * 30);
 
                 if (premium) {
+                    premiumTime = Date.now() + (60000 * 60 * 24 * parseInt(ms(premium.time - Date.now()).days + 31));
+                    console.log(premiumTime);
                     await Premium.findOneAndUpdate({ guildId: interaction.guild.id }, {
                         token: token,
                         time: premiumTime,

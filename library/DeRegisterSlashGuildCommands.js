@@ -1,4 +1,4 @@
-const { Client, REST, Routes } = require("discord.js");
+const { REST, Routes } = require("discord.js");
 
 /**
  * Register slash commands for a guild

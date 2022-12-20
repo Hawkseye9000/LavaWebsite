@@ -1,7 +1,4 @@
 const { Server } = require("socket.io");
-const client = require("../../index");
-const Client = require("../index");
-const botName = 'kartadharta';
 
 /**
  * @param {Server} io
