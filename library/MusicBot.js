@@ -273,9 +273,10 @@ class MusicBot extends Client {
     }
 
     MongooseConnect() {
+        mongoose.set('strictQuery', true);
         mongoose.connect(this.config.mongooseURL, {
             useNewUrlParser: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
         })
             .then(data => {
                 this.warn(`Connected to ${data.connection.host}:${data.connection.port} database: ${data.connection.name}`);
