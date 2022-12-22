@@ -1,9 +1,4 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
-const fetch = require('node-fetch');
-const GenerateToken = require('generate-serial-key');
-const ms = require("parse-ms");
 const Redeem = require("../../mongoose/database/schemas/Redeem");
-const GuildConfig = require("../../mongoose/database/schemas/GuildConfig");
 const Premium = require("../../mongoose/database/schemas/Premium");
 
 module.exports = {
