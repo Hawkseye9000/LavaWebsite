@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { Message, EmbedBuilder, MessageActionRow, MessageSelectMenu } = require("discord.js");
 
 module.exports = {
     name: "help",
@@ -51,10 +51,9 @@ module.exports = {
          * @param {string[]} args
          * @param {*} param3
          */
-        run: async (client, interaction, args, { MusicDB }) => {
-            const language = require(`../../language/${MusicDB.language}.js`);
+        run: async (client, interaction, args, { GuildDB }) => {
             if (!args) {
-                return interaction.reply(`${language.helpText1}`).catch((err) => { client.error(err) });
+                return interaction.reply(`Select either category or commnad`).catch((err) => { client.error(err) });
             } else if (args.name == 'category') {
                 const embed = new EmbedBuilder();
                 const cat = args.value;
@@ -64,7 +63,7 @@ module.exports = {
                     if (cmd.category != cat) return;
                     catCommands.push(cmd);
                 });
-                embed.setTitle(`${helpText2}`);
+                embed.setTitle(`Commands for ${args.value} category`);
                 catCommands.forEach((catCmd) => {
                     embed.addFields({ name: `/${catCmd.name}`, value: `\`${catCmd.description}\``, inline: true });
                 });
@@ -75,25 +74,25 @@ module.exports = {
                 if (!cmd) {
                     let notFound = new EmbedBuilder();
                     notFound.setColor(0xff0000);
-                    notFound.setDescription(`${language.helpError}`);
+                    notFound.setDescription(`❌ | Unable to find that command.`);
 
                     return interaction.reply({ embeds: [notFound] }).catch((err) => { client.error(err) });
                 };
 
                 let embed = new EmbedBuilder()
-                    .setTitle(`${language.helpCommand}: ${cmd.name}`)
+                    .setTitle(`Command: ${cmd.name}`)
                     .setDescription(cmd.description)
                     .setColor(0x00ff00)
                     .addFields(
-                        { name: `${language.helpCommand}`, value: cmd.name, inline: true },
+                        { name: 'Name', value: cmd.name, inline: true },
                         {
-                            name: `${language.helpUsage}`,
+                            name: "Usage",
                             value: `\`/${cmd.name
                                 }${cmd.usage ? " " + cmd.usage : ""}\``,
                             inline: true
                         },
                         {
-                            name: `${language.helpPermission}`,
+                            name: "Permissions",
                             value: "Member: " +
                                 cmd.permissions.member.join(", ") +
                                 "\nBot: " +

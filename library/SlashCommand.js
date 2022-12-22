@@ -1,4 +1,4 @@
-const { REST, Routes } = require("discord.js");
+const { Client, REST, Routes } = require("discord.js");
 const fs = require("fs");
 const path = require("path");
 

@@ -1,4 +1,5 @@
-const { ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionsBitField } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionsBitField } = require("discord.js");
+const fetch = require('node-fetch');
 const GuildConfig = require("../../mongoose/database/schemas/GuildConfig");
 
 module.exports = {

@@ -1,3 +1,5 @@
+const { MessageEmbed } = require('discord.js');
+
 module.exports = {
   name: 'skip',
   run: async (client, interaction, parms) => {
