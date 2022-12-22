@@ -1,8 +1,6 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionsBitField } = require("discord.js");
-const fetch = require('node-fetch');
+const { PermissionsBitField } = require("discord.js");
 const GenerateToken = require('generate-serial-key');
 const Redeem = require("../../mongoose/database/schemas/Redeem");
-const GuildConfig = require("../../mongoose/database/schemas/GuildConfig");
 
 module.exports = {
     name: "token",
