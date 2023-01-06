@@ -22,12 +22,6 @@
   <link rel="shortcut icon" href="favicon.png" />
   <script src="https://cdn.jsdelivr.net/npm/vue@2.7.13"></script>
 </head>
-<style>
-  .image {
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
-  }
-</style>
 
 <body>
   <div class="container-scroller" id="dashboard">
@@ -242,47 +236,6 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-2 grid-margin stretch-card" v-for="guild in guilds" v-if="guild.hasPerms">
-              <div class="card" v-bind:class="[guild.inGuild ? 'data-icon-card-success' : 'data-icon-card-warning']">
-                <div class="card-body">
-                  <div class="card-title text-center">{{guild.name}}</div>
-                  <div class="d-flex">
-                    <div class="mr mt-3">
-                      <div v-if="guild.icon">
-                        <img v-bind:src="'https://cdn.discordapp.com/icons/'+guild.id+'/'+guild.icon"
-                          class="rounded-circle" v-bind:class="[guild.inGuild ? '' : 'image']" width="100%"
-                          height="200" />
-
-                      </div>
-                      <div v-else class="text-center">
-                        <img src="https://cdn.logojoy.com/wp-content/uploads/20210422095037/discord-mascot.png"
-                          class="rounded-circle" v-bind:class="[guild.inGuild ? '' : 'image']" width="100%"
-                          height="200" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-footer">
-                  <div class="third mt-4" v-if="guild.inGuild">
-                    <a v-bind:href="'/server/'+guild.id">
-                      <button class="btn btn-primary btn-block">
-                        <i class="icon-grid menu-icon"></i> Go to Dashboard
-                      </button>
-                    </a>
-                  </div>
-                  <div class="third mt-4" v-else>
-                    <a
-                      v-bind:href="'https://discord.com/oauth2/authorize?client_id='+guild.client_id+'&permissions=277083450689&scope=bot%20identify%20guilds%20applications.commands&redirect_url=./api/auth/discord/redirect&response_type=code&guild_id='+guild.id">
-                      <button class="btn btn-primary btn-block">
-                        <i class="ti-settings menu-icon"></i> Add Bot
-                      </button>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
             <div class="col-md-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
@@ -400,29 +353,19 @@
                       <thead>
                         <tr>
                           <th>Product</th>
-                          <th>Members</th>
-                          <th>Channels</th>
+                          <th>Price</th>
+                          <th>Date</th>
                           <th>Status</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr v-for="guild in guilds" v-if="guild.hasPerms">
                           <td>{{guild.name}}</td>
-                          <td class="font-weight-bold">
-                            <span v-for="data in cache">
-                              <span v-if="guild.inGuild && data.id === guild.id">{{data.members.length}}</span>
-                              <span v-else>No Data</span>
-                            </span>
-                          </td>
-                          <td class="font-weight-bold">
-                            <span v-for="data in cache">
-                              <span v-if="guild.inGuild && data.id === guild.id">{{data.channels.length}}</span>
-                              <span v-else>No Data</span>
-                            </span>
-                          </td>
+                          <td class="font-weight-bold">$362</td>
+                          <td>21 Sep 2018</td>
                           <td class="font-weight-medium">
                             <div :class="guild.inGuild ? `badge badge-success` : `badge badge-danger` ">
-                              {{ guild.inGuild ? 'Active' : 'In-active' }}
+                              {{ guild.inGuild }}
                             </div>
                           </td>
                         </tr>
