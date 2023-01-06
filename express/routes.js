@@ -61,11 +61,11 @@ api.get("/save-song", Auth, (req, res) => {
 //   res.sendFile(join(__dirname, "..", "views", "servers.html"));
 // });
 
-// api.get("/server/:id", Auth, (req, res) => {
-//   if (!req.user.guilds.find((x) => x.id == req.params.id))
-//     return res.redirect("/servers");
-//   res.sendFile(join(__dirname, "..", "views", "server.html"));
-// });
+api.get("/server/:id", Auth, (req, res) => {
+  if (!req.user.guilds.find((x) => x.id == req.params.id))
+    return res.redirect("/dashboard");
+  res.sendFile(join(__dirname, "..", "webview", "server", "index.html"));
+});
 
 // api.get("/server/:id/music", Auth, (req, res) => {
 //   if (!req.user.guilds.find((x) => x.id == req.params.id))

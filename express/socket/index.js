@@ -3,6 +3,8 @@ const client = require("../../index");
 const Client = require("../index");
 const botName = 'kartadharta';
 
+const prettyMilliseconds = require("pretty-ms");
+
 /**
  * @param {Server} io
  */
@@ -26,6 +28,45 @@ module.exports = (io) => {
           guilds: Client.guilds.cache.size,
           ping: Client.ws.ping,
         });
+      }, 1000);
+    });
+
+    socket.on("server", (ServerID) => {
+      if (socket.Server) clearInterval(socket.Server);
+      socket.Server = setInterval(async () => {
+        const Client = require("../../index");
+        if (!Client.Ready) return;
+        let Guild = Client.guilds.cache.get(ServerID);
+        if (!Guild) return socket.emit("error", "Unable to find that server");
+        let GuildDB = await Client.GetMusic(Guild.id);
+        let player = Client.manager.get(Guild.id);
+        if (!player) {
+          socket.emit("server", {
+            serverName: Guild.name,
+            queue: 0,
+            songsLoop: "Disabled",
+            queueLoop: "Disabled",
+            prefix: GuildDB ? GuildDB.prefix : Client.botconfig.DefaultPrefix,
+          });
+        } else {
+          socket.emit("server", {
+            serverName: Guild.name,
+            queue: player.queue ? player.queue.length : 0,
+            queueList: player.queue.slice(0, 10),
+            songsLoop: player.trackRepeat ? "Enabled" : "Disabled",
+            queueLoop: player.queueRepeat ? "Enabled" : "Disabled",
+            prefix: GuildDB ? GuildDB.prefix : Client.botconfig.DefaultPrefix,
+            maxDuration: player.queue.current
+              ? prettyMilliseconds(player.queue.current.duration, {
+                colonNotation: true,
+              })
+              : false,
+            position: player.queue.current
+              ? prettyMilliseconds(player.position, { colonNotation: true })
+              : false,
+            nowPlaying: player.queue.current ? player.queue.current : false,
+          });
+        }
       }, 1000);
     });
 
