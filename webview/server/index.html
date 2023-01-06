@@ -291,7 +291,6 @@
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script src="../vue/dashboard.js"></script>
     <script>
-
         $(document).ready(() => {
             var socket = io();
             socket.emit("server", window.location.pathname.split("/")[2]);
