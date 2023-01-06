@@ -291,25 +291,25 @@
     <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
     <script src="../vue/dashboard.js"></script>
     <script>
-
         $(document).ready(() => {
             var socket = io();
             socket.emit("server", window.location.pathname.split("/")[2]);
 
             socket.on("server", (data) => {
-                if (data.queueList.length > 1) {
-                    var queueText = '';
-                    var eta = data.nowPlaying ? (data.nowPlaying.duration % 60) : 0;
-                    data.queueList.forEach((queue, key) => {
-                        queueText = queueText + `<tr>
+                if (data.queueList) {
+                    if (data.queueList.length > 1) {
+                        var queueText = '';
+                        var eta = data.nowPlaying ? (data.nowPlaying.duration % 60) : 0;
+                        data.queueList.forEach((queue, key) => {
+                            queueText = queueText + `<tr>
                             <td>${(key + 1)}</td>
                             <td><img src ='${queue.thumbnail}' /></td>
                             <td>${queue.title}</td>
                             <td>${queue.requester.tag}</td>
                             <tr>`;
-                        eta = (eta + queue.duration) % 60;
-                    });
-                    $('#queue').html(queueText);
+                        });
+                        $('#queue').html(queueText);
+                    }
                 }
                 $('#serverName').text(data.serverName);
                 $("#songInQueue").text(data.queue);
