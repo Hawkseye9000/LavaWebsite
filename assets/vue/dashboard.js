@@ -5,7 +5,6 @@ var app = new Vue({
             user: [],
             guilds: [],
             session: [],
-            cache: [],
         }
     },
     created() {
@@ -16,11 +15,5 @@ var app = new Vue({
         fetch('/api/user')
             .then(response => response.json())
             .then(data => (this.guilds = data.user.guilds))
-
-        fetch('/api/user/guild/cache')
-            .then(res => res.json())
-            .then(json => {
-                this.cache = json
-            });
     }
 });
