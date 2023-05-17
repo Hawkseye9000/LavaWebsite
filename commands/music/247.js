@@ -11,7 +11,7 @@ module.exports = {
     },
     aliases: [],
     category: "music",
-    premium: false,
+    premium: true,
     SlashCommand: {
         run: async (client, interaction, args, { MusicDB }) => {
             await interaction.deferReply({
