@@ -16,9 +16,9 @@ module.exports = {
 
     // lavalink server
     lavalink: {
-        id: "KartaDharta",
-        host: 'n1.kartadharta.xyz',
-        port: 3000,
+        id: "ryisgood",
+        host: '149.56.23.207',
+        port: 1311,
         password: 'lavaserver',
         secure: false,
     },
