@@ -31,6 +31,25 @@ module.exports = (io) => {
       }, 1000);
     });
 
+    socket.on("dashboard", () => {
+      if (socket.Dashboard) clearInterval(socket.Dashboard);
+      socket.Dashboard = setInterval(() => {
+        const Client = require("../../index");
+        if (!Client.Ready) return;
+        Client.InQueue = 0;
+        for (var key in Client.guildQueue) {
+          Client.InQueue = Client.InQueue + Client.guildQueue[key];
+        }
+        socket.emit("dashboard", {
+          commands: Client.CommandsRan,
+          playMusic: Client.MusicPlayed,
+          inQueue: Client.InQueue,
+          guilds: Client.guilds.cache.size,
+          ping: Client.ws.ping,
+        });
+      }, 1000);
+    });
+
     socket.on("server", (ServerID) => {
       if (socket.Server) clearInterval(socket.Server);
       socket.Server = setInterval(async () => {

@@ -16,10 +16,10 @@ module.exports = {
 
     // lavalink server
     lavalink: {
-        id: "KartaDharta",
-        host: 'n1.kartadharta.xyz',
-        port: 3000,
-        password: 'lavaserver',
+        id: "DevamOP",
+        host: 'lavalink2.devamop.in',
+        port: 8830,
+        password: 'DevamOP',
         secure: false,
     },
 

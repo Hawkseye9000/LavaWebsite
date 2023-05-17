@@ -6,6 +6,7 @@ var app = new Vue({
             guilds: [],
             session: [],
             cache: [],
+            musics: []
         }
     },
     created() {
@@ -22,5 +23,9 @@ var app = new Vue({
             .then(json => {
                 this.cache = json
             });
+
+        fetch('/api/music/save')
+            .then(response => response.json())
+            .then(data => (this.musics = data))
     }
 });

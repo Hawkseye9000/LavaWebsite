@@ -11,6 +11,7 @@ module.exports = {
   },
   aliases: [],
   category: "utilities",
+  premium: true,
   SlashCommand: {
     /**
    *
