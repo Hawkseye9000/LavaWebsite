@@ -16,7 +16,6 @@ module.exports = {
       {
         name: "channel",
         description: "Select channel to setup music",
-        value: "command",
         type: 7,
         required: true,
       },
@@ -24,7 +23,7 @@ module.exports = {
     /**
      *
      * @param {import("../structures/DiscordMusicBot")} client
-     * @param {import("discord.js").Message} message
+     * @param {import("discord.js").Interaction} interaction
      * @param {string[]} args
      * @param {*} param3
      */
@@ -43,7 +42,7 @@ module.exports = {
         },
         footer: {
           text: `${client.user.username} Music`,
-          iconURL: `${client.user.avatarURL()}`,
+          iconURL: client.user.avatarURL() ? client.user.avatarURL() : null, // Add a check to prevent null value
         },
       };
 
@@ -57,8 +56,8 @@ module.exports = {
           .setLabel('⏭️ Skip')
           .setStyle(ButtonStyle.Secondary),
         new ButtonBuilder()
-          .setCustomId('loop')
-          .setLabel('🔁 Loop')
+          .setCustomId('clear')
+          .setLabel('🗑️ Clear')
           .setStyle(ButtonStyle.Danger),
         new ButtonBuilder()
           .setCustomId('stop')
@@ -70,30 +69,8 @@ module.exports = {
           .setStyle(ButtonStyle.Secondary),
       ]);
 
-      const row1 = new ActionRowBuilder().addComponents([
-        new ButtonBuilder()
-          .setCustomId('summon')
-          .setLabel('⚡ Summon')
-          .setStyle(ButtonStyle.Secondary),
-        new ButtonBuilder()
-          .setCustomId('queuelist')
-          .setLabel('🧾 Queue List')
-          .setStyle(ButtonStyle.Secondary),
-        new ButtonBuilder()
-          .setCustomId('clear')
-          .setLabel('🗑️ Clear')
-          .setStyle(ButtonStyle.Secondary),
-        new ButtonBuilder()
-          .setCustomId('grab')
-          .setLabel('🎣 Grab')
-          .setStyle(ButtonStyle.Secondary),
-        new ButtonBuilder()
-          .setCustomId('stats')
-          .setLabel('👾 Stats')
-          .setStyle(ButtonStyle.Secondary),
-      ]);
 
-      music_channel.send({ content: `**[ Nothing Playing ]**\nJoin a voice channel and queue songs by name or url in here.`, embeds: [embed], components: [row, row1] })
+      music_channel.send({ content: `**[ Nothing Playing ]**\nJoin a voice channel and queue songs by name or url in here.`, embeds: [embed], components: [row] })
         .then(async (data) => {
           const channelId = music_channel.id;
           const messageId = data.id;

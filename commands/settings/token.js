@@ -5,7 +5,7 @@ const Redeem = require("../../mongoose/database/schemas/Redeem");
 module.exports = {
     name: "token",
     description: "porvide token to user",
-    usage: "",
+    usage: "[owner]",
     permissions: {
         channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
         member: [],

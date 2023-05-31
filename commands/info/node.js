@@ -2,7 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
     name: 'node',
-    description: 'Displays node information.Displays node information.',
+    description: 'Displays node information.',
     usage: "",
     permissions: {
         channel: ["ManageChannels"],
@@ -13,9 +13,8 @@ module.exports = {
     premium: true,
     SlashCommand: {
         run: async (client, interaction) => {
-            await interaction.deferReply({
-                ephemeral: false
-            });
+            await interaction.deferReply({ ephemeral: false });
+
             const all = client.manager.nodes.map(node =>
                 `Node ${(node.options.identifier)} Connected` +
                 `\nPlayer: ${node.stats.players}` +
@@ -35,8 +34,9 @@ module.exports = {
             const embed = new EmbedBuilder()
                 .setAuthor({ name: 'Lavalink Node', iconURL: client.user.displayAvatarURL() })
                 .setDescription(`\`\`\`${all}\`\`\``)
-                .setColor(0x000FF0)
-            await interaction.followUp({ embeds: [embed] })
-        }
-    }
+                .setColor(0x000FF0);
+
+            await interaction.followUp({ embeds: [embed] });
+        },
+    },
 };

@@ -2,11 +2,10 @@ const GuildConfig = require("../mongoose/database/schemas/GuildConfig");
 const premium = require("../mongoose/database/schemas/Premium");
 
 module.exports = async (client, interaction) => {
-
   let MusicDB = await client.GetMusic(interaction.guildId);
-  let PremiumCMD = await premium.find({ guildId: interaction.guildId });
+  let PremiumCMD = await premium.findOne({ guildId: interaction.guildId }); // Use findOne instead of find
 
-  //Initialize GuildDB
+  // Initialize GuildDB
   if (!MusicDB) {
     MusicDB = await GuildConfig.create({
       guildId: interaction.guildId,
@@ -15,12 +14,12 @@ module.exports = async (client, interaction) => {
   }
 
   if (interaction.isButton()) {
-    const [name, ...parms] = interaction.customId.split("-");
+    const [name, ...params] = interaction.customId.split("-");
 
     const button = client.Buttons.get(name);
 
     if (!button) return;
-    button.run(client, interaction, parms, { MusicDB });
+    button.run(client, interaction, params, { MusicDB });
   }
 
   const command = interaction.commandName;
@@ -32,14 +31,16 @@ module.exports = async (client, interaction) => {
 
   if (cmd.SlashCommand && cmd.SlashCommand.run) {
     if (cmd.premium) {
-      if (PremiumCMD.length == 0 || PremiumCMD.expire == true || PremiumCMD.time < Date())
-        return interaction.reply({ content: `**This command require you to get Premuim**` });
-      else
+      if (!PremiumCMD || PremiumCMD.expire || PremiumCMD.time < Date.now()) {
+        return interaction.reply({ content: `**This command requires you to have Premium**` });
+      } else {
         cmd.SlashCommand.run(client, interaction, args, { MusicDB });
-    }
-    else
+      }
+    } else {
       cmd.SlashCommand.run(client, interaction, args, { MusicDB });
+    }
   }
 
   client.CommandsRan++;
 };
+

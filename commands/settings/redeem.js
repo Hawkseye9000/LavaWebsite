@@ -4,7 +4,7 @@ const Premium = require("../../mongoose/database/schemas/Premium");
 module.exports = {
     name: "redeem",
     description: "Make your bot premium",
-    usage: "",
+    usage: "[token]",
     permissions: {
         channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
         member: [],
