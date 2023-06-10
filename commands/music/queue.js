@@ -17,19 +17,26 @@ module.exports = {
             const guildId = interaction.guildId;
 
             // Get the music queue for the guild
-            const queue = client.guildQueue[guildId];
+            let player = await client.manager.get(interaction.guildId);
+            if (!player) return interaction.reply({ content: `❌ | **Nothing in queue**` }).catch(err => { client.error(err) });
 
-            // If the queue is empty, send a message indicating that
-            if (!queue || queue.length === 0) {
+            if (!player.queue || !player.queue.length || player.queue.length === 0) {
+                return interaction.reply({ content: "❌ | **Invalid, Not enough track to be showned.**", ephemeral: true }).catch(err => { client.error(err) });
+            }
+
+            let queue = player.queue;
+
+            if (!Array.isArray(queue) || queue.length === 0) {
                 await interaction.reply("The music queue is currently empty.");
                 return;
             }
 
-            // Build the embed with the queue information
             const embed = new EmbedBuilder()
                 .setTitle("Music Queue")
                 .setDescription(queue.map((track, index) => `${index + 1}. ${track.title}`).join("\n"))
                 .setColor(0x00FF00);
+
+            // Rest of your code...
 
             // Send the embed as the reply
             await interaction.reply({ embeds: [embed] });
