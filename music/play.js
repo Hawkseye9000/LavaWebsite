@@ -14,8 +14,6 @@ module.exports = {
     // Check if the user is in a voice channel
     if (!message.member.voice.channel) return message.channel.send(`❌ | **You must be in a voice channel to play something!**`);
 
-    if (message.guild.members.me.voice.channel && message.member.voice.channel.id !== message.guild.members.me.voice.channel.id) return message.channel.send(`❌ | **You must be in the same voice channel as me to play something!**`);
-
     let searchString = message.content;
     let checkNode = client.manager.nodes.get(client.config.lavalink.host);
 
@@ -25,7 +23,8 @@ module.exports = {
     // Fetch the music message from the database
     client.musicMessage[message.guild.id] = await message.channel.messages.fetch(MusicDB.musicMessageId);
 
-    const guildData = await GuildConfig.findOne({ guildId: message.guild.id });
+    const GuildData = await GuildConfig.findOne({ guildId: message.guild.id });
+    client.twentyFourSeven[message.guild.id] = GuildData.twentyFourSeven;
 
     let player = client.manager.get(message.guild.id);
 
@@ -33,6 +32,7 @@ module.exports = {
       // If bot is not playing and voice channel is different, destroy the player and create a new one
       await player.destroy();
       player = undefined;
+      await delay(1000);
     }
 
     if (!player || (!player.playing && player.voiceChannel === message.member.voice.channel.id)) {
@@ -76,3 +76,7 @@ module.exports = {
     }
   }
 };
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
