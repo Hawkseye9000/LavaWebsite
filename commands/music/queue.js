@@ -1,18 +1,18 @@
 const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
-    "name": "queue",
-    "description": "Display the current music queue",
-    "usage": "",
-    "permissions": {
-        "channel": ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
-        "member": []
+    name: "queue",
+    description: "Display the current music queue",
+    usage: "",
+    permissions: {
+        channel: ["VIEW_CHANNEL", "SEND_MESSAGES", "EMBED_LINKS"],
+        member: []
     },
-    "aliases": [],
-    "category": "music",
-    "premium": false,
-    "SlashCommand": {
-        "run": async (client, interaction) => {
+    aliases: [],
+    category: "music",
+    premium: false,
+    SlashCommand: {
+        run: async (client, interaction) => {
             // Get the guild ID
             const guildId = interaction.guildId;
 

@@ -1,5 +1,6 @@
 const GuildConfig = require("../mongoose/database/schemas/GuildConfig");
 const premium = require("../mongoose/database/schemas/Premium");
+const BotStats = require("../mongoose/database/schemas/Stats");
 
 module.exports = async (client, interaction) => {
   let MusicDB = await client.GetMusic(interaction.guildId);
@@ -39,6 +40,16 @@ module.exports = async (client, interaction) => {
     } else {
       cmd.SlashCommand.run(client, interaction, args, { MusicDB });
     }
+  }
+
+  try {
+    const statsQuery = { discordId: interaction.user.id };
+    const statsUpdate = { discordName: interaction.user.username, $inc: { commandsCounter: 1 } };
+    const updateOptions = { new: true, upsert: true };
+
+    const updatedStats = await BotStats.findOneAndUpdate(statsQuery, statsUpdate, updateOptions);
+  } catch (error) {
+    client.error(`Error updating/creating stats: ${error}`);
   }
 
   client.CommandsRan++;

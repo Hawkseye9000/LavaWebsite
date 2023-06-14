@@ -1,4 +1,5 @@
 const { Collection } = require('discord.js');
+const BotStats = require("../mongoose/database/schemas/Stats");
 
 /**
  * @param {import("../library/MusicBot")} client
@@ -11,6 +12,21 @@ module.exports = async (client) => {
   // await client.DeRegisterGlobalSlashCommands();
   // await client.DeRegisterGuildSlashCommands();
   await client.RegisterSlashCommands();
+
+  try {
+    const allStats = await BotStats.find();
+
+    allStats.forEach((stats) => {
+      client.MusicPlayed += stats.songsCounter;
+      client.CommandsRan += stats.commandsCounter;
+    });
+
+    console.log('Total Songs:', client.MusicPlayed);
+    console.log('Total Commands:', client.CommandsRan);
+  } catch (error) {
+    console.error('Error fetching stats:', error);
+  }
+
 
   client.guilds.cache.forEach((guild) => {
     client.skipSong[guild.id] = false;

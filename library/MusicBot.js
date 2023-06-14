@@ -8,6 +8,7 @@ const Express = require("express");
 const Logger = require("./Logger");
 const logger = new Logger();
 const GuildConfig = require("../mongoose/database/schemas/GuildConfig");
+const BotStats = require("../mongoose/database/schemas/Stats");
 const { Manager } = require("erela.js");
 const Spotify = require("better-erela.js-spotify").default;
 const { default: AppleMusic } = require("better-erela.js-apple");
@@ -95,7 +96,7 @@ class MusicBot extends Client {
             }
         }).on("nodeConnect", node => logger.commands(`Node ${node.options.identifier} connected`))
             .on("nodeError", (node, error) => logger.error(`Node ${node.options.identifier} had an error: ${error.message}`))
-            .on("trackStart", (player, track) => {
+            .on("trackStart", async (player, track) => {
                 this.MusicPlayed++;
                 let content;
                 const musicMsg = client.musicMessage[player.guild];
@@ -124,6 +125,19 @@ class MusicBot extends Client {
                     },
                 };
                 const playEmbed = new EmbedBuilder(msgEmbed);
+
+                //creating stats
+                try {
+                    const statsQuery = { discordId: track.requester.id };
+                    const statsUpdate = { discordName: track.requester.username, $inc: { songsCounter: 1 } };
+                    const updateOptions = { new: true, upsert: true };
+
+                    const updatedStats = await BotStats.findOneAndUpdate(statsQuery, statsUpdate, updateOptions);
+                } catch (error) {
+                    this.error(`Error updating/creating stats: ${error}`);
+                }
+
+
                 playEmbed.addFields({ name: `Requested By`, value: `${track.requester.username}`, inline: true });
                 if (client.skipSong[player.guild] && client.skipBy[player.guild]) {
                     playEmbed.addFields({ name: `Skip By`, value: `${client.skipBy[player.guild].username}`, inline: true });
