@@ -6,6 +6,7 @@ var app = new Vue({
             guilds: [],
             session: [],
             cache: [],
+            stats: [],
         }
     },
     created() {
@@ -21,6 +22,14 @@ var app = new Vue({
             .then(res => res.json())
             .then(json => {
                 this.cache = json
+            });
+
+        fetch('/api/dashboard/stats')
+            .then(res => res.json())
+            .then(json => {
+                this.stats = json
+                this.stats.songsPercentage = (this.stats.userSongs / this.stats.totalSongs) * 100
+                this.stats.commandsPercentage = (this.stats.userCommands / this.stats.totalCommands) * 100;
             });
     }
 });
