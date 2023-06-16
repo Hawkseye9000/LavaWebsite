@@ -19,23 +19,23 @@ module.exports = {
     const row = new ActionRowBuilder().addComponents([
       new ButtonBuilder()
         .setCustomId('pause')
-        .setLabel('⏸️ Pause')
+        .setLabel(`${language.buttonPause}`)
         .setStyle(ButtonStyle.Primary),
       new ButtonBuilder()
         .setCustomId('skip')
-        .setLabel('⏭️ Skip')
+        .setLabel(`${language.buttonSkip}`)
         .setStyle(ButtonStyle.Secondary),
       new ButtonBuilder()
         .setCustomId('clear')
-        .setLabel('🗑️ Clear')
+        .setLabel(`${language.buttonClear}`)
         .setStyle(ButtonStyle.Secondary),
       new ButtonBuilder()
         .setCustomId('stop')
-        .setLabel('⏹️ Stop')
+        .setLabel(`${language.buttonStop}`)
         .setStyle(ButtonStyle.Secondary),
       new ButtonBuilder()
         .setCustomId('fix')
-        .setLabel('⚒️ Repair')
+        .setLabel(`${language.buttonRepair}`)
         .setStyle(ButtonStyle.Secondary),
     ]);
 

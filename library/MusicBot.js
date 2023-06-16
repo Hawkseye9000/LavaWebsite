@@ -99,16 +99,19 @@ class MusicBot extends Client {
             .on("trackStart", async (player, track) => {
                 this.MusicPlayed++;
                 let content;
+                const guildData = await GuildConfig.findOne({ guildId: player.guild });
+                const language = require(`../language/${guildData.language}`);
                 const musicMsg = client.musicMessage[player.guild];
-                if (player.queue.length == 0)
-                    content = `**[ Now Playing ]**\n${track.title}.`;
-                else {
-                    content = `\n**[ Now Playing ]**\n${track.title}.\n**[ ${player.queue.length} Songs in Queue ]**`;
-                    musicMsg.edit({ content: content });
-                };
+                if (player.queue.length === 0) {
+                    content = ` ${language.title} \n${track.title}.`;
+                } else {
+                    content = `\n ${language.title} \n${track.title}.\n**[ ${player.queue.length} ${language.songsInQueue} ]**`;
+                    musicMsg.edit({ content });
+                }
+
                 this.playSong(track.title, player.queue.length);
                 this.guildQueue[player.guild] = player.queue.length;
-                const musicEmbed = musicMsg.embeds[0];
+
                 const thumbnail = track.thumbnail ? track.thumbnail.replace('default', 'hqdefault') : 'https://c.tenor.com/eDVrPUBkx7AAAAAd/anime-sleepy.gif';
                 const msgEmbed = {
                     title: track.title,
@@ -120,41 +123,52 @@ class MusicBot extends Client {
                         url: track.thumbnail,
                     },
                     footer: {
-                        text: `🔊 Volume: ${player.volume}`,
+                        text: `🔊 ${language.volume}: ${player.volume}`,
                         iconURL: `${client.user.avatarURL()}`,
                     },
                 };
                 const playEmbed = new EmbedBuilder(msgEmbed);
 
-                //creating stats
+                // Creating stats
                 try {
                     const statsQuery = { discordId: track.requester.id };
-                    const statsUpdate = { discordName: track.requester.username, $inc: { songsCounter: 1 } };
+                    const statsUpdate = {
+                        discordName: track.requester.username,
+                        $inc: { songsCounter: 1 },
+                    };
                     const updateOptions = { new: true, upsert: true };
 
-                    const updatedStats = await BotStats.findOneAndUpdate(statsQuery, statsUpdate, updateOptions);
+                    const updatedStats = await BotStats.findOneAndUpdate(
+                        statsQuery,
+                        statsUpdate,
+                        updateOptions
+                    );
                 } catch (error) {
                     this.error(`Error updating/creating stats: ${error}`);
                 }
 
+                playEmbed.addFields({ name: `${language.requestedBy}`, value: `${track.requester.username}`, inline: true });
 
-                playEmbed.addFields({ name: `Requested By`, value: `${track.requester.username}`, inline: true });
                 if (client.skipSong[player.guild] && client.skipBy[player.guild]) {
-                    playEmbed.addFields({ name: `Skip By`, value: `${client.skipBy[player.guild].username}`, inline: true });
+                    playEmbed.addFields({ name: `${language.skipBy}`, value: `${client.skipBy[player.guild].username}`, inline: true });
                     client.skipSong[player.guild] = false;
                     client.skipBy[player.guild] = false;
                 }
-                musicMsg.edit({ content: content, embeds: [playEmbed] });
+
+                musicMsg.edit({ content, embeds: [playEmbed] });
             })
-            .on("queueEnd", (player) => {
+            .on("queueEnd", async (player) => {
                 const musicMsg = client.musicMessage[player.guild];
                 client.skipSong[player.guild] = false;
                 client.skipBy[player.guild] = false;
                 client.guildQueue[player.guild] = 0;
-                let description = null;
+
+                const guildData = await GuildConfig.findOne({ guildId: player.guild });
+                const language = require(`../language/${guildData.language}`);
+
                 const embed = {
-                    title: `🎵 Vibing Music 🎵`,
-                    description: `Few permission have been changed to bot. So kindly please re-invite the awesome bot with new link. Many Thanx \n\n [Invite Link](https://discord.com/oauth2/authorize?client_id=946749028312416327&permissions=277083450689&scope=bot%20applications.commands)`,
+                    title: language.songTitle,
+                    description: language.songDesc,
                     color: 0xd43790,
                     image: {
                         url: 'https://i.pinimg.com/originals/55/28/82/552882e7f9e8ca8ae79a9cab1f6480d6.gif',
@@ -171,27 +185,27 @@ class MusicBot extends Client {
                 const row = new ActionRowBuilder().addComponents([
                     new ButtonBuilder()
                         .setCustomId('pause')
-                        .setLabel('⏸️ Pause')
+                        .setLabel(`⏸️ ${language.pauseButton}`)
                         .setStyle(ButtonStyle.Primary),
                     new ButtonBuilder()
                         .setCustomId('skip')
-                        .setLabel('⏭️ Skip')
+                        .setLabel(`⏭️ ${language.skipButton}`)
                         .setStyle(ButtonStyle.Secondary),
                     new ButtonBuilder()
                         .setCustomId('clear')
-                        .setLabel('🗑️ Clear')
+                        .setLabel(`🗑️ ${language.clearButton}`)
                         .setStyle(ButtonStyle.Secondary),
                     new ButtonBuilder()
                         .setCustomId('stop')
-                        .setLabel('⏹️ Stop')
+                        .setLabel(`⏹️ ${language.stopButton}`)
                         .setStyle(ButtonStyle.Secondary),
                     new ButtonBuilder()
                         .setCustomId('fix')
-                        .setLabel('⚒️ Repair')
+                        .setLabel(`⚒️ ${language.repairButton}`)
                         .setStyle(ButtonStyle.Secondary),
                 ]);
 
-                musicMsg.edit({ content: `**[ Nothing Playing ]**\nJoin a voice channel and queue songs by name or url in here.`, embeds: [embed], components: [row] });
+                musicMsg.edit({ content: language.title, embeds: [embed], components: [row] });
 
                 if (!client.twentyFourSeven[player.guild])
                     player.destroy();

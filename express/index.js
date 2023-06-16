@@ -1,6 +1,7 @@
 require('dotenv').config();
 require('./Auth');
 const path = require('path');
+const express = require('express');
 const { static, Router } = require("express");
 const api = Router();
 const fs = require("fs");
@@ -24,7 +25,7 @@ fs.readdir(RoutesPath, (err, files) => {
 const publicPath = path.join(__dirname, '../assets');
 api.use(static(publicPath));
 
-//Handle Login and other stuff
+// Handle Login and other stuff
 
 // mongoose.connect(process.env.MONGOOSE_URL, {
 //   useNewUrlParser: true,
@@ -34,7 +35,7 @@ api.use(static(publicPath));
 api.use(cors({
     origin: ['https://localhost'],
     credentials: true,
-}))
+}));
 
 api.use(session({
     secret: 'secret',

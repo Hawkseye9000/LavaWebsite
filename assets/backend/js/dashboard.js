@@ -328,77 +328,106 @@
       document.getElementById('sales-legend').innerHTML = SalesChart.generateLegend();
     }
     if ($("#north-america-chart").length) {
-      var areaData = {
-        labels: ["Jan", "Feb", "Mar"],
-        datasets: [{
-          data: [100, 50, 50],
-          backgroundColor: [
-            "#4B49AC", "#FFC100", "#248AFD",
-          ],
-          borderColor: "rgba(0,0,0,0)"
-        }
-        ]
-      };
-      var areaOptions = {
-        responsive: true,
-        maintainAspectRatio: true,
-        segmentShowStroke: false,
-        cutoutPercentage: 78,
-        elements: {
-          arc: {
-            borderWidth: 4
+      (async function () {
+        var stats;  // Declare the stats variable outside of fetch
+        var songData = [];
+
+        try {
+          const response = await fetch('/api/dashboard/stats');
+          const data = await response.json();
+
+          stats = data;  // Assign the value to stats
+          songData = [data.userSongs, data.userCommands];
+
+          // Use stats inside the fetch (it will be available here)
+          if (stats && stats.userSongs) {
+            // Access the 'userSongs' property and perform operations on it
+            const userSongs = stats.userSongs;
+            // Use the 'userSongs' variable as needed
+            console.log(userSongs);
+          } else {
+            // Handle the case when 'userSongs' is not available or undefined
+            console.log("userSongs property is not available");
           }
-        },
-        legend: {
-          display: false
-        },
-        tooltips: {
-          enabled: true
-        },
-        legendCallback: function (chart) {
-          var text = [];
-          text.push('<div class="report-chart">');
-          text.push('<div class="d-flex justify-content-between mx-4 mx-xl-5 mt-3"><div class="d-flex align-items-center"><div class="mr-3" style="width:20px; height:20px; border-radius: 50%; background-color: ' + chart.data.datasets[0].backgroundColor[0] + '"></div><p class="mb-0">Offline sales</p></div>');
-          text.push('<p class="mb-0">88333</p>');
-          text.push('</div>');
-          text.push('<div class="d-flex justify-content-between mx-4 mx-xl-5 mt-3"><div class="d-flex align-items-center"><div class="mr-3" style="width:20px; height:20px; border-radius: 50%; background-color: ' + chart.data.datasets[0].backgroundColor[1] + '"></div><p class="mb-0">Online sales</p></div>');
-          text.push('<p class="mb-0">66093</p>');
-          text.push('</div>');
-          text.push('<div class="d-flex justify-content-between mx-4 mx-xl-5 mt-3"><div class="d-flex align-items-center"><div class="mr-3" style="width:20px; height:20px; border-radius: 50%; background-color: ' + chart.data.datasets[0].backgroundColor[2] + '"></div><p class="mb-0">Returns</p></div>');
-          text.push('<p class="mb-0">39836</p>');
-          text.push('</div>');
-          text.push('</div>');
-          return text.join("");
-        },
-      }
-      var northAmericaChartPlugins = {
-        beforeDraw: function (chart) {
-          var width = chart.chart.width,
-            height = chart.chart.height,
-            ctx = chart.chart.ctx;
 
-          ctx.restore();
-          var fontSize = 3.125;
-          ctx.font = "500 " + fontSize + "em sans-serif";
-          ctx.textBaseline = "middle";
-          ctx.fillStyle = "#13381B";
+          var areaData = {
+            labels: ["Jan", "Feb", "Mar"],
+            datasets: [{
+              data: songData,
+              backgroundColor: [
+                "#4B49AC", "#248AFD", "#FFC100",
+              ],
+              borderColor: "rgba(0,0,0,0)"
+            }]
+          };
 
-          var text = "90",
-            textX = Math.round((width - ctx.measureText(text).width) / 2),
-            textY = height / 2;
+          var areaOptions = {
+            responsive: true,
+            maintainAspectRatio: true,
+            segmentShowStroke: false,
+            cutoutPercentage: 78,
+            elements: {
+              arc: {
+                borderWidth: 4
+              }
+            },
+            legend: {
+              display: false
+            },
+            tooltips: {
+              enabled: true
+            },
+            legendCallback: function (chart) {
+              var text = [];
+              text.push('<div class="report-chart">');
+              text.push('<div class="d-flex justify-content-between mx-4 mx-xl-5 mt-3"><div class="d-flex align-items-center"><div class="mr-3" style="width:20px; height:20px; border-radius: 50%; background-color: ' + chart.data.datasets[0].backgroundColor[0] + '"></div><p class="mb-0">Songs</p></div>');
+              text.push('<p class="mb-0">' + data.userSongs + '</p>');
+              text.push('</div>');
+              text.push('<div class="d-flex justify-content-between mx-4 mx-xl-5 mt-3"><div class="d-flex align-items-center"><div class="mr-3" style="width:20px; height:20px; border-radius: 50%; background-color: ' + chart.data.datasets[0].backgroundColor[1] + '"></div><p class="mb-0">Commands</p></div>');
+              text.push('<p class="mb-0">' + data.userCommands + '</p>');
+              text.push('</div>');
+              text.push('<div class="d-flex justify-content-between mx-4 mx-xl-5 mt-3"><div class="d-flex align-items-center"><div class="mr-3" style="width:20px; height:20px; border-radius: 50%; background-color: ' + chart.data.datasets[0].backgroundColor[2] + '"></div><p class="mb-0">Total</p></div>');
+              text.push('<p class="mb-0">' + (parseInt(data.userCommands) + parseInt(data.userSongs)) + '</p>');
+              text.push('</div>');
+              text.push('</div>');
+              return text.join("");
+            }
+          };
 
-          ctx.fillText(text, textX, textY);
-          ctx.save();
+          var northAmericaChartPlugins = {
+            beforeDraw: function (chart) {
+              var width = chart.chart.width,
+                height = chart.chart.height,
+                ctx = chart.chart.ctx;
+
+              ctx.restore();
+              var fontSize = 3.125;
+              ctx.font = "500 " + fontSize + "em sans-serif";
+              ctx.textBaseline = "middle";
+              ctx.fillStyle = "#13381B";
+
+              var text = "❤️",
+                textX = Math.round((width - ctx.measureText(text).width) / 2),
+                textY = height / 2;
+
+              ctx.fillText(text, textX, textY);
+              ctx.save();
+            }
+          };
+
+          var northAmericaChartCanvas = $("#north-america-chart").get(0).getContext("2d");
+          var northAmericaChart = new Chart(northAmericaChartCanvas, {
+            type: 'doughnut',
+            data: areaData,
+            options: areaOptions,
+            plugins: northAmericaChartPlugins
+          });
+
+          document.getElementById('north-america-legend').innerHTML = northAmericaChart.generateLegend();
+        } catch (error) {
+          console.error('Error:', error);
         }
-      }
-      var northAmericaChartCanvas = $("#north-america-chart").get(0).getContext("2d");
-      var northAmericaChart = new Chart(northAmericaChartCanvas, {
-        type: 'doughnut',
-        data: areaData,
-        options: areaOptions,
-        plugins: northAmericaChartPlugins
-      });
-      document.getElementById('north-america-legend').innerHTML = northAmericaChart.generateLegend();
+      })();
     }
     if ($("#north-america-chart-dark").length) {
       var areaData = {
