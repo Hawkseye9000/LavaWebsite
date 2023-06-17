@@ -11,7 +11,7 @@ module.exports = {
     },
     aliases: [],
     category: "settings",
-    premium: true,
+    premium: false,
     SlashCommand: {
         options: [
             {

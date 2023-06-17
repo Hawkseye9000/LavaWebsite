@@ -10,7 +10,7 @@ module.exports = {
     },
     aliases: [],
     category: 'music',
-    premium: true,
+    premium: false,
     SlashCommand: {
         run: async (client, interaction, args, { MusicDB }) => {
             let channel = interaction.channel;
