@@ -103,7 +103,7 @@ class MusicBot extends Client {
                 const language = require(`../language/${guildData.language}`);
                 const musicMsg = client.musicMessage[player.guild];
                 if (player.queue.length === 0) {
-                    content = ` ${language.title} \n${track.title}.`;
+                    content = ` ${language.nowPlaying} \n${track.title}.`;
                 } else {
                     content = `\n ${language.title} \n${track.title}.\n**[ ${player.queue.length} ${language.songsInQueue} ]**`;
                     musicMsg.edit({ content });
@@ -185,23 +185,23 @@ class MusicBot extends Client {
                 const row = new ActionRowBuilder().addComponents([
                     new ButtonBuilder()
                         .setCustomId('pause')
-                        .setLabel(`⏸️ ${language.pauseButton}`)
+                        .setLabel(`${language.buttonPause}`)
                         .setStyle(ButtonStyle.Primary),
                     new ButtonBuilder()
                         .setCustomId('skip')
-                        .setLabel(`⏭️ ${language.skipButton}`)
+                        .setLabel(`${language.buttonSkip}`)
                         .setStyle(ButtonStyle.Secondary),
                     new ButtonBuilder()
                         .setCustomId('clear')
-                        .setLabel(`🗑️ ${language.clearButton}`)
+                        .setLabel(`${language.buttonClear}`)
                         .setStyle(ButtonStyle.Secondary),
                     new ButtonBuilder()
                         .setCustomId('stop')
-                        .setLabel(`⏹️ ${language.stopButton}`)
+                        .setLabel(`${language.buttonStop}`)
                         .setStyle(ButtonStyle.Secondary),
                     new ButtonBuilder()
                         .setCustomId('fix')
-                        .setLabel(`⚒️ ${language.repairButton}`)
+                        .setLabel(`${language.buttonRepair}`)
                         .setStyle(ButtonStyle.Secondary),
                 ]);
 

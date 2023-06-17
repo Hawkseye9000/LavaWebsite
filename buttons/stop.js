@@ -18,23 +18,23 @@ module.exports = {
     const row = new ActionRowBuilder().addComponents([
       new ButtonBuilder()
         .setCustomId('pause')
-        .setLabel(`⏸️ ${language.pauseButton}`)
+        .setLabel(`${language.buttonPause}`)
         .setStyle(ButtonStyle.Primary),
       new ButtonBuilder()
         .setCustomId('skip')
-        .setLabel(`⏭️ ${language.skipButton}`)
+        .setLabel(`${language.buttonSkip}`)
         .setStyle(ButtonStyle.Secondary),
       new ButtonBuilder()
         .setCustomId('clear')
-        .setLabel(`🗑️ ${language.clearButton}`)
+        .setLabel(`${language.buttonClear}`)
         .setStyle(ButtonStyle.Secondary),
       new ButtonBuilder()
         .setCustomId('stop')
-        .setLabel(`⏹️ ${language.stopButton}`)
+        .setLabel(`${language.buttonStop}`)
         .setStyle(ButtonStyle.Secondary),
       new ButtonBuilder()
         .setCustomId('fix')
-        .setLabel(`⚒️ ${language.repairButton}`)
+        .setLabel(`${language.buttonRepair}`)
         .setStyle(ButtonStyle.Secondary),
     ]);
 
@@ -55,6 +55,6 @@ module.exports = {
     };
     client.musicMessage[interaction.guildId] = await interaction.channel.messages.fetch(MusicDB.musicMessageId);
     client.musicMessage[interaction.guildId].edit({ content: `${language.title}\n${language.description}`, embeds: [embed], components: [row] });
-    return interaction.reply({ content: `Music Stoped` }).catch(err => { client.error(err) });
+    return interaction.reply({ content: `${language.stopMusic}` }).catch(err => { client.error(err) });
   }
 }
