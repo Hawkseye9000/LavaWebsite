@@ -20,15 +20,22 @@ module.exports = {
                 type: 3, // String type
                 required: true,
                 choices: [
+                    { name: "Assamese", value: "assamese" },
                     { name: "Bengali", value: "bengali" },
                     { name: "English", value: "english" },
                     { name: "Gujarati", value: "gujarati" },
                     { name: "Hindi", value: "hindi" },
                     { name: "Kannada", value: "kannada" },
+                    { name: "Konkani", value: "konkani" },
                     { name: "Maithili", value: "maithili" },
+                    { name: "Malayalam", value: "malayalam" },
+                    { name: "Manipuri", value: "manipuri" },
                     { name: "Marathi", value: "marathi" },
+                    { name: "Mizoram", value: "mizoram" },
+                    { name: "Odisha", value: "odisha" },
                     { name: "Punjabi", value: "punjabi" },
                     { name: "Tamil", value: "tamil" },
+                    { name: "Telugu", value: "telugu" }
                 ],
             },
         ],
