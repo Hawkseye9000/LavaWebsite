@@ -15,13 +15,29 @@ module.exports = {
     mongooseURL: process.env.MONGOOSE_URL || "",
 
     // lavalink server
-    lavalink: {
-        id: "ryisgood",
-        host: '149.56.23.207',
-        port: 1311,
-        password: 'lavaserver',
-        secure: false,
-    },
+    lavalink: [
+        {
+            id: "ryisgood",
+            host: '149.56.23.207',
+            port: 1311,
+            password: 'lalalink',
+            secure: false,
+        },
+        {
+            id: "Darren",
+            host: 'narco.buses.rocks',
+            port: 2269,
+            password: 'glasshost1984',
+            secure: false,
+        },
+        {
+            id: "DevamOP",
+            host: 'lavalink.devamop.in',
+            port: 80,
+            password: 'DevamOP',
+            secure: false,
+        }
+    ],
 
     presence: {
         status: "idle", // online, idle, and dnd(invisible too but it make people think the bot is offline)

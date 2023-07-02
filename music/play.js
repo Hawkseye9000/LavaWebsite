@@ -15,7 +15,7 @@ module.exports = {
     if (!message.member.voice.channel) return message.channel.send(`❌ | **You must be in a voice channel to play something!**`);
 
     let searchString = message.content;
-    let checkNode = client.manager.nodes.get(client.config.lavalink.host);
+    let checkNode = client.manager.nodes.get(client.config.lavalink[0].host);
 
     // Check if the Lavalink node is connected
     if (!checkNode || !checkNode.connected) return message.channel.send(`❌ | **Lavalink node not connected**`);

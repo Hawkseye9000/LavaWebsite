@@ -87,7 +87,7 @@ class MusicBot extends Client {
             retryDelay: this.config.retryDelay,
             retryAmount: this.config.retryAmount,
             // Pass an array of node.
-            nodes: [this.config.lavalink],
+            nodes: this.config.lavalink,
             // A send method to send data to the Discord WebSocket using your library.
             // Getting the shard for the guild and sending the data to the WebSocket.
             send(id, payload) {
