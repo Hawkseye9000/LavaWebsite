@@ -19,7 +19,7 @@ module.exports = {
         id: "ryisgood",
         host: '149.56.23.207',
         port: 1311,
-        password: 'lavaserver',
+        password: 'lalalink',
         secure: false,
     },
 
