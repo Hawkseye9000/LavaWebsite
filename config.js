@@ -14,15 +14,20 @@ module.exports = {
 
     mongooseURL: process.env.MONGOOSE_URL || "",
 
+    RateLimitWindowMS: 15,
+    RateLimitDelayAfter: 30,
+    MaxUsesPerUser: Infinity,
+    RateLimitDelayMs: 100,
+
     // lavalink server
     lavalink: [
-        {
-            id: "ryisgood",
-            host: '149.56.23.207',
-            port: 1311,
-            password: 'lalalink',
-            secure: false,
-        },
+        // {
+        //     id: "ryisgood",
+        //     host: '149.56.23.207',
+        //     port: 1311,
+        //     password: 'lalalink',
+        //     secure: false,
+        // },
         {
             id: "Darren",
             host: 'narco.buses.rocks',
