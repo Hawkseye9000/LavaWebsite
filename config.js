@@ -28,13 +28,13 @@ module.exports = {
         //     password: 'lalalink',
         //     secure: false,
         // },
-        {
-            id: "Darren",
-            host: 'narco.buses.rocks',
-            port: 2269,
-            password: 'glasshost1984',
-            secure: false,
-        },
+        // {
+        //     id: "Darren",
+        //     host: 'narco.buses.rocks',
+        //     port: 2269,
+        //     password: 'glasshost1984',
+        //     secure: false,
+        // },
         {
             id: "DevamOP",
             host: 'lavalink.devamop.in',
