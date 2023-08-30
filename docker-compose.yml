@@ -7,7 +7,7 @@ services:
     command: npm run watch
     restart: always
     environment:
-      PORT: 6969
+      PORT: 6969:6969
     networks:
       - lavamusicserver
     depends_on:
@@ -20,6 +20,8 @@ services:
   lavalink:
     image: fredboat/lavalink
     container_name: lavalink
+    environment:
+      PORT: 3000:3000
     hostname: lavalink
     restart: unless-stopped
     networks:

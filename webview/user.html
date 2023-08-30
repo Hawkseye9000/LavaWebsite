@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Dashboard</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="backend/vendors/feather/feather.css">
+    <link rel="stylesheet" href="backend/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="backend/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="backend/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="backend/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="backend/js/select.dataTables.min.css">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="backend/css/vertical-layout-light/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="favicon.png" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.13"></script>
+</head>
+<style>
+    .user-profile {
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+    }
+
+    .fs-30 {
+        font-size: 20px;
+    }
+</style>
+
+<body>
+    <div class="container-scroller" id="user">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                <a class="navbar-brand brand-logo mr-5" href="/dashboard"><img src="backend/images/logo.svg"
+                        class="mr-2" alt="logo" /></a>
+                <a class="navbar-brand brand-logo-mini" href="/dashboard"><img src="backend/images/logo-mini.svg"
+                        alt="logo" /></a>
+            </div>
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                    <span class="icon-menu"></span>
+                </button>
+                <ul class="navbar-nav navbar-nav-right">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#"
+                            data-toggle="dropdown">
+                            <i class="icon-bell mx-0"></i>
+                            <span class="count"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+                            aria-labelledby="notificationDropdown">
+                            <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-success">
+                                        <i class="ti-info-alt mx-0"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <h6 class="preview-subject font-weight-normal">Application Error</h6>
+                                    <p class="font-weight-light small-text mb-0 text-muted">
+                                        Just now
+                                    </p>
+                                </div>
+                            </a>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-warning">
+                                        <i class="ti-settings mx-0"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <h6 class="preview-subject font-weight-normal">Settings</h6>
+                                    <p class="font-weight-light small-text mb-0 text-muted">
+                                        Private message
+                                    </p>
+                                </div>
+                            </a>
+                            <a class="dropdown-item preview-item">
+                                <div class="preview-thumbnail">
+                                    <div class="preview-icon bg-info">
+                                        <i class="ti-user mx-0"></i>
+                                    </div>
+                                </div>
+                                <div class="preview-item-content">
+                                    <h6 class="preview-subject font-weight-normal">New user registration</h6>
+                                    <p class="font-weight-light small-text mb-0 text-muted">
+                                        2 days ago
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav-item nav-profile dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                            <img :src="'https://cdn.discordapp.com/avatars/' + user.discordId + '/' + user.avatar + '.png'"
+                                alt="profile" />
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
+                            aria-labelledby="profileDropdown">
+                            <a class="dropdown-item" href="/logout">
+                                <i class="ti-power-off text-primary"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                    data-toggle="offcanvas">
+                    <span class="icon-menu"></span>
+                </button>
+            </div>
+        </nav>
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:partials/_settings-panel.html -->
+            <div class="theme-setting-wrapper">
+                <div id="settings-trigger"><i class="ti-settings"></i></div>
+                <div id="theme-settings" class="settings-panel">
+                    <i class="settings-close ti-close"></i>
+                    <p class="settings-heading">SIDEBAR SKINS</p>
+                    <div class="sidebar-bg-options selected" id="sidebar-light-theme">
+                        <div class="img-ss rounded-circle bg-light border mr-3"></div>Light
+                    </div>
+                    <div class="sidebar-bg-options" id="sidebar-dark-theme">
+                        <div class="img-ss rounded-circle bg-dark border mr-3"></div>Dark
+                    </div>
+                    <p class="settings-heading mt-2">HEADER SKINS</p>
+                    <div class="color-tiles mx-0 px-4">
+                        <div class="tiles success"></div>
+                        <div class="tiles warning"></div>
+                        <div class="tiles danger"></div>
+                        <div class="tiles info"></div>
+                        <div class="tiles dark"></div>
+                        <div class="tiles default"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- partial:partials/_sidebar.html -->
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">
+                            <i class="icon-grid menu-icon"></i>
+                            <span class="menu-title">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/save-song">
+                            <i class="ti-music-alt menu-icon"></i>
+                            <span class="menu-title">Save Songs</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/redeem">
+                            <i class="ti-credit-card menu-icon"></i>
+                            <span class="menu-title">Redeem</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" v-if="user.perms == 'admin'">
+                        <a class="nav-link" href="/user">
+                            <i class="ti-user menu-icon"></i>
+                            <span class="menu-title">User</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <div class="row">
+                        <div class="col-md-12 grid-margin">
+                            <div class="row">
+                                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                                    <h3 class="font-weight-bold">All Karta Dharta Users</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 grid-margin transparent">
+                            <div class="row" v-for="member in guildUsers" :key="member.id">
+                                <div class="col-md-3 mb-4 stretch-card transparent">
+                                    <div :class="['card', cardClassByLevel(member.level)]">
+                                        <div class="card-body">
+                                            <p class="mb-4">Name</p>
+                                            <p class="fs-30 mb-2">
+                                                <img :src="member.avatarUrl" alt="profile" class="user-profile" />
+                                                {{ member.username }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-4 stretch-card transparent">
+                                    <div :class="['card', cardClassByLevel(member.level)]">
+                                        <div class="card-body">
+                                            <p class="mb-4">Higest Role</p>
+                                            <p class="fs-30 mb-2">{{member.roles[0].name}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-4 stretch-card transparent">
+                                    <div :class="['card', cardClassByLevel(member.level)]">
+                                        <div class="card-body">
+                                            <p class="mb-4">Authority Level</p>
+                                            <p class="fs-30 mb-2">Level: {{ member.level }}</p>
+                                            <button
+                                                v-if="member.level === 0 && !member.roles.includes('1051662258373136471') && member.songsCounter >= 100"
+                                                class="btn btn-success btn-sm"
+                                                @click="upgradeLevel(member.id, 1)">Upgrade to Level 1</button>
+
+                                            <button
+                                                v-else-if="member.level === 1 && !member.roles.includes('1051662275158741043') && member.songsCounter >= 200"
+                                                class="btn btn-success btn-sm"
+                                                @click="upgradeLevel(member.id, 2)">Upgrade to Level 2</button>
+
+                                            <button
+                                                v-else-if="member.level === 2 && !member.roles.includes('1051664084774424686') && member.songsCounter >= 300"
+                                                class="btn btn-success btn-sm"
+                                                @click="upgradeLevel(member.id, 3)">Upgrade to Level 3</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-4 stretch-card transparent">
+                                    <div :class="['card', cardClassByLevel(member.level)]">
+                                        <div class=" card-body">
+                                            <p class="mb-4">Songs Played</p>
+                                            <p class="fs-30 mb-2">{{ member.songsCounter }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+                <footer class="footer">
+                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2023.
+                            Karta Dharta
+                            All rights reserved.</span>
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Under Developement <i
+                                class="ti-heart text-danger ml-1"></i></span>
+                    </div>
+                </footer>
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+
+    <!-- plugins:js -->
+    <script src="backend/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="backend/vendors/chart.js/Chart.min.js"></script>
+    <script src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="backend/js/dataTables.select.min.js"></script>
+    <script src="backend/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="backend/js/off-canvas.js"></script>
+    <script src="backend/js/hoverable-collapse.js"></script>
+    <script src="backend/js/template.js"></script>
+    <script src="backend/js/settings.js"></script>
+    <script src="backend/js/todolist.js"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="backend/js/dashboard.js"></script>
+    <script src="backend/js/Chart.roundedBarCharts.js"></script>
+    <!-- End custom js for this page-->
+
+    <script src="vue/user.js"></script>
+</body>
+
+</html>

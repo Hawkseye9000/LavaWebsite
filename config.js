@@ -4,7 +4,7 @@ const { ActivityType } = require("discord.js");
 module.exports = {
     Id: process.env.Discord_ClientID,
     prefix: process.env.PREFIX || '!',
-    Admins: ["UserID", "UserID"],
+    Admins: ['456130838183280651', '963655683658629150'],
     buildToken: process.env.BUILD_TOKEN || 'build token',
     Token: process.env.TOKEN || 'bot token',
     ExpressServer: true,
@@ -36,10 +36,10 @@ module.exports = {
         //     secure: false,
         // },
         {
-            id: "DevamOP",
-            host: 'lavalink.devamop.in',
-            port: 80,
-            password: 'DevamOP',
+            id: "lavalink",
+            host: 'localhost',
+            port: 3000,
+            password: 'kdlavalink',
             secure: false,
         }
     ],
@@ -58,5 +58,15 @@ module.exports = {
         ClientID: process.env.Spotify_ClientID || "", //Spotify Client ID
         ClientSecret: process.env.Spotify_ClientSecret || "", //Spotify Client Secret
     },
+
+    github: {
+        repoOwner: "ErrorDoc404",
+        repoName: process.env.GITHUB_REPO_NAME || "",
+        githubToken: process.env.GITHUB_TOKEN || "",
+    },
+
+    stripe: {
+        token: process.env.STRIPE_TOKEN
+    }
 
 };

@@ -1,6 +1,6 @@
 const client = require("../../");
 const api = require("express").Router();
-const Auth = require("../Middlewares/Auth");
+const { Auth } = require("../Middlewares");
 const Stats = require("../../mongoose/database/schemas/Stats");
 
 // Get user information

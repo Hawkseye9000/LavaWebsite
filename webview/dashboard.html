@@ -412,10 +412,8 @@
                         <tr v-for="guild in guilds" v-if="guild.hasPerms && guild.inGuild">
                           <td>{{guild.name}}</td>
                           <td class="font-weight-bold">
-                            <span v-for="data in cache">
-                              <span v-if="guild.inGuild && data.id === guild.id">{{data.members.length}}</span>
-                            </span>
-                            <span v-if="guild.inGuild === false">Not in Server</span>
+                            <span v-if="guild.inGuild">{{ guild.memberCount }}</span>
+                            <span v-else>Not in Server</span>
                           </td>
                           <td class="font-weight-bold">
                             <span v-for="data in cache">

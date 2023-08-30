@@ -1,6 +1,6 @@
 const client = require("../..");
 const SaveMusic = require("../../mongoose/database/schemas/SaveMusic");
-const Auth = require("../Middlewares/Auth");
+const { Auth } = require("../Middlewares");
 const api = require("express").Router();
 
 /**

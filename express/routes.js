@@ -2,7 +2,7 @@ const api = require("express").Router();
 const { Collection } = require("discord.js");
 const { join } = require("path");
 const config = require("../config");
-const Auth = require("./Middlewares/Auth");
+const { Auth, Administrator } = require("./Middlewares");
 const fs = require("fs");
 
 // Read categories from the commands directory
@@ -44,26 +44,42 @@ Commands.sort(function (cmd1, cmd2) {
 
 // Serve the index.html file
 api.get("/", (req, res) => {
+  req.session.returnTo = req.originalUrl;
   res.sendFile(join(__dirname, "..", "webview", "index.html"));
 });
 
 // Serve the dashboard.html file with authentication
 api.get("/dashboard", Auth, (req, res) => {
+  req.session.returnTo = req.originalUrl;
   res.sendFile(join(__dirname, "..", "webview", "dashboard.html"));
 });
 
 // Serve the redeem.html file with authentication
 api.get("/redeem", Auth, (req, res) => {
+  req.session.returnTo = req.originalUrl;
+  console.log(req.session)
   res.sendFile(join(__dirname, "..", "webview", "redeem.html"));
+});
+
+api.get("/user", Auth, Administrator, (req, res) => {
+  req.session.returnTo = req.originalUrl;
+  res.sendFile(join(__dirname, "..", "webview", "user.html"));
 });
 
 // Serve the music.html file with authentication
 api.get("/save-song", Auth, (req, res) => {
+  req.session.returnTo = req.originalUrl;
   res.sendFile(join(__dirname, "..", "webview", "music.html"));
+});
+
+api.get("/ticket", Auth, (req, res) => {
+  req.session.returnTo = req.originalUrl;
+  res.sendFile(join(__dirname, "..", "webview", "ticket.html"));
 });
 
 // Serve the server/index.html file with authentication and guild validation
 api.get("/server/:id", Auth, (req, res) => {
+  req.session.returnTo = req.originalUrl;
   try {
     if (!req.user.guilds.find((x) => x.id == req.params.id))
       return res.redirect("/dashboard");
@@ -76,6 +92,7 @@ api.get("/server/:id", Auth, (req, res) => {
 
 // Serve the api/commands endpoint with the Commands data
 api.get("/api/commands", (req, res) => {
+  req.session.returnTo = req.originalUrl;
   try {
     res.send({ commands: Commands });
   } catch (error) {

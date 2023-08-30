@@ -9,7 +9,6 @@ const { join } = require("path");
 const config = require("../config");
 const session = require("express-session");
 const passport = require('passport');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const MongoStore = require('connect-mongo');
 
@@ -24,6 +23,7 @@ fs.readdir(RoutesPath, (err, files) => {
 
 const publicPath = path.join(__dirname, '../assets');
 api.use(static(publicPath));
+api.use(express.json());
 
 // Handle Login and other stuff
 
@@ -55,7 +55,10 @@ api.use(passport.session());
 api.get(config.CallbackURL,
     passport.authenticate("discord", { failureRedirect: "/", }),
     function (req, res) {
-        res.redirect("/dashboard");
+        console.log(req.session);
+        const redirectTo = req.session.returnTo || '/dashboard';
+        delete req.session.returnTo; // Clear the returnTo value
+        res.redirect(redirectTo);
     }
 );
 

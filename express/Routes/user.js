@@ -1,11 +1,12 @@
 const { PermissionsBitField } = require("discord.js");
 const client = require("../../");
+const { Auth } = require("../Middlewares");
 const api = require("express").Router();
 
 /**
  * Get user information and check guild permissions
  */
-api.get("/", async (req, res) => {
+api.get("/", Auth, async (req, res) => {
     try {
         if (!req.user) {
             // Return empty object if there is no authenticated user
@@ -20,6 +21,15 @@ api.get("/", async (req, res) => {
             );
             guild.inGuild = client.guilds.cache.has(guild.id);
             guild.client_id = client.user;
+
+            // Get member count from the guild cache (assuming you have the member counts in the cache)
+            const cachedGuild = client.guilds.cache.get(guild.id);
+            if (cachedGuild) {
+                guild.memberCount = cachedGuild.memberCount;
+            } else {
+                guild.memberCount = 0; // Guild not found in cache, set member count to 0
+            }
+
             return guild;
         });
 
