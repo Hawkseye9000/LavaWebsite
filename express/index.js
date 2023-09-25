@@ -32,6 +32,12 @@ api.use(express.json());
 //   useUnifiedTopology: true
 // });
 
+api.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
 api.use(cors({
     origin: ['https://localhost'],
     credentials: true,
