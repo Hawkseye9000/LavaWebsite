@@ -105,5 +105,4 @@ api.get('/:guildId', Auth, Administrator, async (req, res) => {
     }
 });
 
-
 module.exports = api;

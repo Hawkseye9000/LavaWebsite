@@ -37,9 +37,9 @@ module.exports = {
         // },
         {
             id: "lavalink",
-            host: 'lavalink',
+            host: '152.70.78.251',
             port: 3000,
-            password: 'youshallnotpass',
+            password: 'kdlavalink',
             secure: false,
         }
     ],
